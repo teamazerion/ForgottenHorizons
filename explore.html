@@ -1,0 +1,895 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#050914">
+<meta name="description" content="Forgotten Horizons — explore the stories of the machines left behind on the Moon and Mars.">
+<title>3D Explorer | Forgotten Horizons</title>
+
+<style>
+:root {
+  --bg: #050914;
+  --blue: #82ccff;
+  --muted: #a4b4ca;
+  --line: rgba(155, 203, 255, .22);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  color: #f4f7ff;
+  background: var(--bg);
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.hero {
+  position: relative;
+  isolation: isolate;
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background:
+    radial-gradient(ellipse at 75% 36%, rgba(42, 104, 166, .2), transparent 35%),
+    linear-gradient(180deg, #07101f 0%, #081426 50%, #050914 100%);
+}
+
+.hero::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  opacity: .75;
+  background-image:
+    radial-gradient(1px 1px at 8% 15%, white 99%, transparent),
+    radial-gradient(2px 2px at 23% 34%, #a9d9ff 99%, transparent),
+    radial-gradient(1px 1px at 44% 12%, white 99%, transparent),
+    radial-gradient(1px 1px at 61% 28%, white 99%, transparent),
+    radial-gradient(2px 2px at 87% 17%, #b9dfff 99%, transparent),
+    radial-gradient(1px 1px at 76% 51%, white 99%, transparent),
+    radial-gradient(1px 1px at 17% 70%, white 99%, transparent),
+    radial-gradient(1px 1px at 53% 65%, white 99%, transparent),
+    radial-gradient(1px 1px at 92% 73%, white 99%, transparent);
+  background-size: 350px 300px;
+  animation: stars 35s linear infinite;
+  pointer-events: none;
+}
+
+@keyframes stars {
+  from { transform: translateY(0); }
+  to { transform: translateY(-100px); }
+}
+
+nav {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 25px 6%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  border-bottom: 1px solid var(--line);
+}
+
+.brand {
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 2.5px;
+}
+
+.brand span {
+  color: var(--blue);
+}
+
+.nav-status {
+  color: var(--muted);
+  font-size: 10px;
+  letter-spacing: 1.5px;
+  text-align: right;
+}
+
+main {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 65px 6% 75px;
+}
+
+.content {
+  position: relative;
+  z-index: 2;
+  max-width: 690px;
+  animation: rise 1s ease both;
+}
+
+@keyframes rise {
+  from { opacity: 0; transform: translateY(18px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.eyebrow {
+  color: var(--blue);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 3px;
+  line-height: 1.8;
+}
+
+h1 {
+  margin: 23px 0;
+  font-size: clamp(43px, 10vw, 86px);
+  line-height: .98;
+  letter-spacing: -3px;
+  font-weight: 800;
+}
+
+h1 span {
+  display: block;
+  color: var(--blue);
+}
+
+.intro {
+  max-width: 540px;
+  color: #bac7d9;
+  font-size: 15px;
+  line-height: 1.9;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 15px;
+  margin-top: 34px;
+}
+
+.primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  padding: 17px 22px;
+  background: #b9e3ff;
+  color: #07101c;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+  transition: transform .2s, background .2s;
+}
+
+.primary:hover {
+  transform: translateY(-3px);
+  background: white;
+}
+
+.secondary {
+  padding: 15px 0;
+  color: #c6d4e7;
+  font-size: 12px;
+}
+
+.secondary:hover {
+  color: white;
+}
+
+.orbit {
+  position: absolute;
+  z-index: -1;
+  width: clamp(220px, 42vw, 490px);
+  aspect-ratio: 1;
+  right: -5%;
+  top: 25%;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at 32% 28%, #d9e7f1 0%, #8396aa 10%, #37495e 34%, #111c2d 64%, #070c16 72%);
+  box-shadow:
+    -25px 15px 80px rgba(70, 143, 208, .13),
+    inset -25px -18px 45px rgba(0, 0, 0, .7);
+  opacity: .68;
+  pointer-events: none;
+}
+
+.orbit::after {
+  content: "";
+  position: absolute;
+  width: 145%;
+  height: 28%;
+  left: -22%;
+  top: 40%;
+  border: 1px solid rgba(130, 204, 255, .28);
+  border-radius: 50%;
+  transform: rotate(-22deg);
+}
+
+.bottom {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 18px;
+  padding: 22px 6%;
+  border-top: 1px solid var(--line);
+  color: #8295ad;
+  font-size: 10px;
+  letter-spacing: 1.5px;
+}
+
+.bottom strong {
+  color: #cbd8e9;
+  font-weight: 600;
+}
+
+.story {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 75px 6%;
+}
+
+.story h2 {
+  max-width: 600px;
+  font-size: clamp(28px, 6vw, 44px);
+  line-height: 1.15;
+}
+
+.story p {
+  max-width: 650px;
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.9;
+}
+
+footer {
+  padding: 25px 6%;
+  border-top: 1px solid var(--line);
+  color: #7f91a9;
+  font-size: 11px;
+  line-height: 1.8;
+}
+
+@media (max-width: 600px) {
+  nav { padding: 21px 6%; }
+  .brand { font-size: 11px; letter-spacing: 1.5px; }
+  .nav-status { font-size: 9px; }
+  main { padding-top: 65px; padding-bottom: 85px; }
+  h1 { letter-spacing: -2px; }
+  .orbit {
+    width: 260px;
+    right: -105px;
+    top: 15%;
+    opacity: .35;
+  }
+  .intro { font-size: 14px; }
+  .primary { width: 100%; }
+  .bottom { font-size: 9px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: .01ms !important;
+  }
+}
+</style>
+
+<style id="FH_HOLOGRAPHIC_HUD">
+#fh-3d-viewer{isolation:isolate}
+.fh-hud{position:absolute;inset:0;z-index:3;pointer-events:none;overflow:hidden;color:#a9e7ff;font-family:monospace;text-shadow:0 0 8px #36aaff88}
+.fh-hud-corner{position:absolute;width:24px;height:24px;border-color:#76d9ff;border-style:solid;opacity:.85}
+.fh-hud-tl{top:48px;left:14px;border-width:1px 0 0 1px}
+.fh-hud-tr{top:48px;right:14px;border-width:1px 1px 0 0}
+.fh-hud-bl{bottom:40px;left:14px;border-width:0 0 1px 1px}
+.fh-hud-br{bottom:40px;right:14px;border-width:0 1px 1px 0}
+.fh-hud-reticle{position:absolute;left:50%;top:50%;width:90px;height:90px;transform:translate(-50%,-50%);border:1px solid #64caff55;border-radius:50%;box-shadow:0 0 18px #299cff18}
+.fh-hud-reticle:before,.fh-hud-reticle:after{content:"";position:absolute;background:#78dcff88}
+.fh-hud-reticle:before{width:120%;height:1px;left:-10%;top:50%}
+.fh-hud-reticle:after{height:120%;width:1px;top:-10%;left:50%}
+.fh-hud-sweep{position:absolute;left:0;right:0;top:0;height:2px;background:linear-gradient(90deg,transparent,#64dcff,transparent);opacity:.7;box-shadow:0 0 14px #36bfff;animation:fhScan 5s linear infinite}
+.fh-hud-readout{position:absolute;right:25px;top:55px;text-align:right;font-size:9px;line-height:1.8;letter-spacing:1px}
+.fh-hud-readout span{color:#e4f8ff}
+.fh-hud-bottom{position:absolute;left:25px;bottom:48px;font-size:9px;line-height:1.8;letter-spacing:1px}
+.fh-hud-bar{height:3px;width:100px;background:#163c55;margin-top:5px;overflow:hidden}
+.fh-hud-bar:after{content:"";display:block;height:100%;width:35%;background:#69d8ff;box-shadow:0 0 10px #69d8ff;animation:fhSweepBar 2.4s ease-in-out infinite alternate}
+.fh-hud-blink{animation:fhBlink 1.8s steps(2,end) infinite}
+@keyframes fhScan{from{transform:translateY(0)}to{transform:translateY(320px)}}
+@keyframes fhSweepBar{from{transform:translateX(0)}to{transform:translateX(185%)}}
+@keyframes fhBlink{50%{opacity:.45}}
+@media(max-width:480px){.fh-hud-readout{right:22px;top:58px;font-size:8px}.fh-hud-bottom{left:22px;bottom:47px;font-size:8px}.fh-hud-reticle{width:66px;height:66px}}
+@media(prefers-reduced-motion:reduce){.fh-hud-sweep,.fh-hud-bar:after,.fh-hud-blink{animation:none}}
+</style>
+
+
+<style id="FH_CONTROL_CHALLENGE">
+#fh-command-center{padding:64px 6%;background:radial-gradient(ellipse at 50% 0%,#102b45 0%,#070d18 65%);color:#e9f5ff;font-family:inherit}
+#fh-command-center *{box-sizing:border-box}
+.fhcc-kicker{font:10px monospace;letter-spacing:3px;color:#70d7ff}
+.fhcc-title{font-size:clamp(25px,4vw,38px);margin:12px 0;color:#f3f8ff}
+.fhcc-sub{color:#91a9c2;font-size:13px;line-height:1.8;max-width:650px}
+.fhcc-stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin:28px 0}
+.fhcc-stat,.fhcc-panel{background:linear-gradient(145deg,#102238dd,#091321ee);border:1px solid #254764;border-radius:10px;padding:19px}
+.fhcc-stat small{display:block;color:#91a9c2;font:10px monospace;letter-spacing:1px}
+.fhcc-number{font-size:30px;color:#86ddff;margin:10px 0 4px}
+.fhcc-note{font-size:11px;color:#7894b1}
+.fhcc-grid{display:grid;grid-template-columns:1fr 1.2fr;gap:15px}
+.fhcc-panel h3{margin:8px 0 12px;font-size:19px}
+.fhcc-line{height:5px;background:#1b3045;border-radius:10px;overflow:hidden;margin:12px 0 18px}
+.fhcc-line span{display:block;width:100%;height:100%;background:linear-gradient(90deg,#2785ff,#7ce7ff)}
+.fhcc-tag{font:10px monospace;letter-spacing:1px;color:#77d8ff}
+.fhcc-question{font-size:16px;line-height:1.6;margin:15px 0}
+.fhcc-options{display:grid;gap:9px}
+.fhcc-option{padding:12px;text-align:left;border:1px solid #294b68;border-radius:6px;background:#0b1929;color:#dbeeff;font:inherit;font-size:13px;cursor:pointer}
+.fhcc-option:hover:not(:disabled){border-color:#79dfff;background:#10263a}
+.fhcc-option:disabled{cursor:default;opacity:.8}
+.fhcc-option.fhcc-correct{border-color:#51dfad;background:#10352e}
+.fhcc-option.fhcc-wrong{border-color:#ff9b80;background:#39201f}
+.fhcc-feedback{min-height:48px;font-size:12px;color:#a9c0d7;line-height:1.7;margin:13px 0}
+.fhcc-btn{padding:11px 15px;border:1px solid #79dfff;border-radius:5px;background:#102a40;color:#e9f8ff;font:11px monospace;letter-spacing:1px;cursor:pointer}
+.fhcc-btn:focus-visible,.fhcc-option:focus-visible{outline:2px solid white;outline-offset:3px}
+@media(max-width:600px){.fhcc-stats{gap:8px}.fhcc-stat{padding:12px}.fhcc-number{font-size:24px}.fhcc-stat small{font-size:8px}.fhcc-grid{grid-template-columns:1fr}#fh-command-center{padding:45px 5%}}
+</style>
+
+
+<style id="FH_TIMELINE_STYLES">
+#fh-timeline{padding:65px 6%;color:#edf7ff;background:radial-gradient(ellipse at 50% 0%,#122c45,#070c16 72%);font-family:inherit}
+#fh-timeline *{box-sizing:border-box}
+.fht-kicker{font:10px monospace;letter-spacing:3px;color:#7bdcff}
+.fht-heading{font-size:clamp(26px,4vw,38px);margin:12px 0}
+.fht-intro{font-size:13px;color:#98aec5;line-height:1.8;max-width:660px}
+.fht-filters{display:flex;gap:8px;flex-wrap:wrap;margin:25px 0 18px}
+.fht-filter,.fht-year,.fht-mission{font:11px monospace;cursor:pointer;color:#cfeeff;background:#0b1928;border:1px solid #294c68;border-radius:5px;padding:10px 13px}
+.fht-filter[aria-pressed="true"],.fht-year[aria-pressed="true"]{border-color:#7ce1ff;background:#12314a;box-shadow:0 0 14px #35aaff20}
+.fht-year-row{display:flex;gap:8px;overflow-x:auto;padding:5px 2px 17px}
+.fht-year{flex:0 0 auto;min-width:75px}
+.fht-track{height:2px;background:linear-gradient(90deg,#1d5277,#7ce1ff,#1d5277);margin:0 0 25px;position:relative}
+.fht-track:after{content:"";position:absolute;top:-3px;left:0;width:8px;height:8px;border-radius:50%;background:#8ceaff;box-shadow:0 0 12px #65d9ff;animation:fht-travel 5s linear infinite}
+@keyframes fht-travel{from{left:0}to{left:calc(100% - 8px)}}
+.fht-cards{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.fht-card{padding:18px;background:linear-gradient(145deg,#10243a,#091321);border:1px solid #25435e;border-radius:8px;min-width:0}
+.fht-card[hidden]{display:none}
+.fht-card-top{font:10px monospace;letter-spacing:1px;color:#7ddfff}
+.fht-mission{width:100%;text-align:left;margin-top:12px;font-size:13px;line-height:1.6}
+.fht-mission:focus-visible,.fht-filter:focus-visible,.fht-year:focus-visible{outline:2px solid white;outline-offset:3px}
+.fht-detail{margin-top:12px;padding-top:12px;border-top:1px solid #25435e;color:#a8bfd4;font-size:12px;line-height:1.8}
+.fht-detail[hidden]{display:none}
+.fht-detail a{color:#83dcff}
+.fht-empty{color:#91a9c2;font-size:12px;line-height:1.8}
+@media(max-width:600px){#fh-timeline{padding:45px 5%}.fht-cards{grid-template-columns:1fr}.fht-card{padding:15px}}
+@media(prefers-reduced-motion:reduce){#fh-timeline *{animation:none!important;scroll-behavior:auto!important}}
+</style>
+
+</head>
+<body>
+<nav>
+    <a class="brand" href="index.html">FH <span>/</span> EXPLORATION</a>
+    <div class="nav-status">INDEPENDENT MISSION ARCHIVE<br>FIELD RECORD · 2026</div>
+  
+<div style="display:flex;gap:12px;flex-wrap:wrap;align-items:center;font-size:12px">
+<a href="index.html">HOME</a>
+<a href="dashboard.html">MISSION CONTROL</a>
+<a href="explore.html">EXPLORE</a>
+<a href="missions.html">ARCHIVE</a>
+<a href="about.html">ABOUT</a>
+</div>
+</nav>
+<section id="fh-explorer" style="position:relative;overflow:hidden;padding:70px 6%;background:radial-gradient(ellipse at 50% 20%,#102b48 0%,#07101f 55%,#050914 100%);border-top:1px solid rgba(155,203,255,.22);border-bottom:1px solid rgba(155,203,255,.22);">
+  <div style="max-width:1200px;margin:auto;">
+    <p style="color:#82ccff;font-size:11px;font-weight:bold;letter-spacing:3px;">INTERACTIVE MISSION CONTROL · 009</p>
+    <h2 style="margin:12px 0;font-size:clamp(28px,5vw,48px);line-height:1.1;">EXPLORE THE <span style="color:#82ccff;">UNFORGOTTEN.</span></h2>
+    <p style="max-width:620px;color:#a4b4ca;line-height:1.8;">Travel across worlds. Discover the machines that remain, and uncover the stories behind humanity's exploration of the Moon and Mars.</p>
+    <div style="display:flex;flex-wrap:wrap;gap:10px;margin:28px 0;">
+      <button type="button" data-world="moon" style="padding:12px 20px;border:1px solid #82ccff;background:#102b48;color:#fff;border-radius:4px;cursor:pointer;">🌕 EXPLORE THE MOON</button>
+      <button type="button" data-world="mars" style="padding:12px 20px;border:1px solid rgba(155,203,255,.35);background:#07101f;color:#fff;border-radius:4px;cursor:pointer;">🔴 EXPLORE MARS</button>
+    </div>
+    <div id="fh-3d-viewer" style="position:relative;height:320px;max-width:760px;margin:24px auto;overflow:hidden;border:1px solid rgba(130,204,255,.35);border-radius:12px;background:radial-gradient(ellipse at center,#102b48,#050914 72%);box-shadow:inset 0 0 40px #2a68a633;">
+      <div style="position:absolute;top:14px;left:16px;z-index:2;color:#82ccff;font-size:10px;letter-spacing:2px;">LIVE PLANET VIEW · 3D</div>
+
+<div class="fh-hud" id="FH_HOLOGRAPHIC_HUD" aria-hidden="true">
+  <div class="fh-hud-corner fh-hud-tl"></div>
+  <div class="fh-hud-corner fh-hud-tr"></div>
+  <div class="fh-hud-corner fh-hud-bl"></div>
+  <div class="fh-hud-corner fh-hud-br"></div>
+  <div class="fh-hud-sweep"></div>
+  <div class="fh-hud-reticle"></div>
+  <div class="fh-hud-readout">
+    <div>WORLD <span id="fh-hud-world">MOON</span></div>
+    <div>SECTOR <span id="fh-hud-sector">LUNAR-01</span></div>
+    <div>SCAN <span class="fh-hud-blink">ACTIVE</span></div>
+    <div>TELEMETRY <span>SIMULATED</span></div>
+  </div>
+  <div class="fh-hud-bottom">
+    <div>MISSION STATUS · <span id="fh-hud-status">EXPLORING</span></div>
+    <div id="fh-hud-coords">LAT +00.67° · LON +023.47°*</div>
+    <div class="fh-hud-bar"></div>
+    <div style="opacity:.65;margin-top:4px">*ILLUSTRATIVE DISPLAY</div>
+  </div>
+</div>
+
+      <canvas id="fh-planet-canvas" aria-label="Interactive 3D planet viewer" style="display:block;width:100%;height:100%;touch-action:pan-y;"></canvas>
+      <div id="fh-3d-status" style="position:absolute;bottom:12px;left:16px;z-index:2;color:#a4b4ca;font-size:10px;letter-spacing:1px;">INITIALIZING EXPLORER...</div>
+    </div>
+
+    <div id="fh-mission-card" style="display:none;max-width:760px;margin:18px auto;padding:22px;border:1px solid rgba(130,204,255,.4);border-radius:12px;background:linear-gradient(135deg,#10243a,#070d18);">
+      <p id="fh-mission-world" style="color:#82ccff;font-size:10px;letter-spacing:2px;">ARTIFACT INTELLIGENCE</p>
+      <h3 id="fh-mission-name" style="color:#f2f7ff;margin:8px 0;">Mission name</h3>
+      <p id="fh-mission-year" style="color:#82ccff;font-size:12px;"></p>
+      <p style="color:#82ccff;font-size:10px;letter-spacing:2px;">OBJECT CLASSIFICATION</p>
+      <p id="fh-mission-object" style="color:#f2f7ff;line-height:1.7;"></p>
+      <p style="color:#82ccff;font-size:10px;letter-spacing:2px;">MISSION INTELLIGENCE</p>
+      <p id="fh-mission-detail" style="color:#c2d0e1;line-height:1.8;"></p>
+      <p style="color:#82ccff;font-size:10px;letter-spacing:2px;">SCIENTIFIC LEGACY</p>
+      <p id="fh-mission-legacy" style="color:#c2d0e1;line-height:1.8;"></p>
+      <p style="color:#8198b3;font-size:10px;">Marker positions are illustrative interface hotspots, not precise landing coordinates.</p>
+      <a id="fh-mission-source" href="missions.html" target="_blank" rel="noopener noreferrer" style="display:inline-block;margin:5px 8px 5px 0;padding:11px 15px;border:1px solid #82ccff;border-radius:4px;color:#fff;text-decoration:none;font-size:11px;">VIEW NASA SOURCE ↗</a>
+      <a href="missions.html" style="display:inline-block;padding:11px 15px;border:1px solid rgba(130,204,255,.35);border-radius:4px;color:#c2d0e1;text-decoration:none;font-size:11px;">OPEN MISSION ARCHIVE ↗</a>
+    </div>
+
+    <div id="fh-world" style="min-height:230px;display:grid;place-items:center;border:1px solid rgba(130,204,255,.25);border-radius:12px;background:radial-gradient(ellipse at center,#173b5b 0%,#091526 48%,#050914 100%);text-align:center;padding:28px;">
+      <div>
+        <div id="fh-world-symbol" style="font-size:76px;filter:drop-shadow(0 0 22px #82ccff);">🌕</div>
+        <h3 id="fh-world-title" style="letter-spacing:2px;">THE MOON</h3>
+        <p id="fh-world-description" style="max-width:480px;color:#a4b4ca;line-height:1.7;">A world of silent landers, lunar experiments, and footprints that outlasted their missions.</p>
+      </div>
+    </div>
+    <div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:18px;margin-top:22px;">
+      <div><p style="color:#82ccff;font-size:10px;letter-spacing:2px;">ARCHIVE ACCESS</p><p style="color:#a4b4ca;margin:0;">Select a world, then investigate its mission records.</p></div>
+      <a href="missions.html" style="display:inline-block;padding:13px 18px;border:1px solid #82ccff;border-radius:4px;color:#fff;font-size:12px;font-weight:bold;letter-spacing:1px;">OPEN MISSION ARCHIVE ↗</a>
+    </div>
+  </div>
+</section>
+<footer>
+  FORGOTTEN HORIZONS · INDEPENDENT EDUCATIONAL PROJECT<br>
+  NASA names and mission information are used for educational storytelling.
+  This project is not affiliated with or endorsed by NASA.
+</footer>
+<script id="FH_EXPLORER_INTERACTIONS">
+(() => {
+  const worlds = {
+    moon: {
+      symbol: "🌕",
+      title: "THE MOON",
+      description: "A world of silent landers, lunar experiments, and footprints that outlasted their missions.",
+      background: "radial-gradient(ellipse at center,#294563 0%,#101d30 48%,#050914 100%)"
+    },
+    mars: {
+      symbol: "🔴",
+      title: "THE RED PLANET",
+      description: "Explore the legacy of Mars landers and rovers that revealed another world's ancient landscapes.",
+      background: "radial-gradient(ellipse at center,#66352e 0%,#291b27 48%,#050914 100%)"
+    }
+  };
+
+  const panel = document.getElementById("fh-world");
+  const symbol = document.getElementById("fh-world-symbol");
+  const title = document.getElementById("fh-world-title");
+  const description = document.getElementById("fh-world-description");
+  const buttons = document.querySelectorAll("[data-world]");
+
+  if (!panel || !symbol || !title || !description) return;
+
+  buttons.forEach(button => {
+    button.addEventListener("click", () => {
+      const world = worlds[button.dataset.world];
+      if (!world) return;
+
+      symbol.textContent = world.symbol;
+      title.textContent = world.title;
+      description.textContent = world.description;
+      panel.style.background = world.background;
+
+      buttons.forEach(item => {
+        const active = item === button;
+        item.style.borderColor = active ? "#82ccff" : "rgba(155,203,255,.35)";
+        item.style.background = active ? "#102b48" : "#07101f";
+      });
+    });
+  });
+})();
+</script>
+<script type="module" id="FH_3D_RENDERER">
+(async () => {
+  const canvas = document.getElementById("fh-planet-canvas");
+  const status = document.getElementById("fh-3d-status");
+  const viewer = document.getElementById("fh-3d-viewer");
+  if (!canvas || !status || !viewer) return;
+
+  try {
+    const THREE = await import(
+      "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js"
+    );
+
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(42, 1, 0.1, 100);
+    camera.position.z = 4.7;
+
+    const renderer = new THREE.WebGLRenderer({
+      canvas, alpha: true, antialias: true
+    });
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+    renderer.outputColorSpace = THREE.SRGBColorSpace;
+
+    scene.add(new THREE.AmbientLight(0xffffff, 1.25));
+
+    const sunlight = new THREE.DirectionalLight(0xffffff, 3);
+    sunlight.position.set(-3, 2, 4);
+    scene.add(sunlight);
+
+    const rimLight = new THREE.PointLight(0x339cff, 9, 12);
+    rimLight.position.set(3, 0, -2);
+    scene.add(rimLight);
+
+    const planet = new THREE.Group();
+    scene.add(planet);
+
+    const sphere = new THREE.Mesh(
+      new THREE.SphereGeometry(1.35, 80, 80),
+      new THREE.MeshStandardMaterial({
+        color: 0xb8c9df,
+        roughness: 1,
+        metalness: 0
+      })
+    );
+    planet.add(sphere);
+
+    const ring = new THREE.Mesh(
+      new THREE.TorusGeometry(1.7, 0.008, 8, 160),
+      new THREE.MeshBasicMaterial({
+        color: 0x63baff,
+        transparent: true,
+        opacity: 0.65
+      })
+    );
+    ring.rotation.x = 1.05;
+    ring.rotation.y = 0.25;
+    planet.add(ring);
+
+    const secondRing = new THREE.Mesh(
+      new THREE.TorusGeometry(1.9, 0.004, 6, 160),
+      new THREE.MeshBasicMaterial({
+        color: 0x2473bd,
+        transparent: true,
+        opacity: 0.45
+      })
+    );
+    secondRing.rotation.x = 0.8;
+    secondRing.rotation.y = -0.4;
+    planet.add(secondRing);
+
+    const starsGeometry = new THREE.BufferGeometry();
+    const starPositions = [];
+    for (let i = 0; i < 450; i++) {
+      starPositions.push(
+        (Math.random() - 0.5) * 18,
+        (Math.random() - 0.5) * 12,
+        -2 - Math.random() * 8
+      );
+    }
+    starsGeometry.setAttribute(
+      "position",
+      new THREE.Float32BufferAttribute(starPositions, 3)
+    );
+    const stars = new THREE.Points(
+      starsGeometry,
+      new THREE.PointsMaterial({
+        color: 0xa7d8ff, size: 0.025, transparent: true, opacity: 0.8
+      })
+    );
+    scene.add(stars);
+
+    const markerGroup = new THREE.Group();
+    planet.add(markerGroup);
+
+    function addMarker(lat, lon) {
+      const phi = (90 - lat) * Math.PI / 180;
+      const theta = (lon + 180) * Math.PI / 180;
+      const position = new THREE.Vector3(
+        -1.365 * Math.sin(phi) * Math.cos(theta),
+         1.365 * Math.cos(phi),
+         1.365 * Math.sin(phi) * Math.sin(theta)
+      );
+
+      const dot = new THREE.Mesh(
+        new THREE.SphereGeometry(0.045, 16, 16),
+        new THREE.MeshBasicMaterial({ color: 0x8de4ff })
+      );
+      dot.position.copy(position);
+      markerGroup.add(dot);
+
+      const glow = new THREE.Mesh(
+        new THREE.SphereGeometry(0.085, 16, 16),
+        new THREE.MeshBasicMaterial({
+          color: 0x299cff,
+          transparent: true,
+          opacity: 0.22
+        })
+      );
+      glow.position.copy(position);
+      markerGroup.add(glow);
+    }
+
+    function setMarkers(world) {
+      while (markerGroup.children.length) {
+        const item = markerGroup.children[0];
+        markerGroup.remove(item);
+        item.geometry.dispose();
+        item.material.dispose();
+      }
+
+      if (world === "moon") {
+        addMarker(0.67, 23.47);
+        addMarker(3.01, -23.42);
+        addMarker(-3, -17);
+      } else {
+        addMarker(18.4, 77.5);
+        addMarker(-14.6, 175.5);
+        addMarker(-1.95, 354.5);
+      }
+    }
+
+    const loader = new THREE.TextureLoader();
+    const textures = {};
+    const textureURLs = {
+      moon: "https://threejs.org/examples/textures/planets/moon_1024.jpg",
+      mars: "https://threejs.org/examples/textures/planets/mars_1k_color.jpg"
+    };
+
+    async function loadTexture(world) {
+      if (textures[world]) return textures[world];
+
+      return new Promise(resolve => {
+        loader.load(
+          textureURLs[world],
+          texture => {
+            texture.colorSpace = THREE.SRGBColorSpace;
+            textures[world] = texture;
+            resolve(texture);
+          },
+          undefined,
+          () => resolve(null)
+        );
+      });
+    }
+
+    let currentWorld = "moon";
+    let targetRotation = 0;
+    let dragging = false;
+    let lastX = 0;
+    let lastY = 0;
+    let zoom = 4.7;
+
+    async function selectWorld(world) {
+      if (world !== "moon" && world !== "mars") return;
+      currentWorld = world;
+      status.textContent = "LOADING " + world.toUpperCase() + " TEXTURE...";
+
+      const texture = await loadTexture(world);
+      sphere.material.map = texture;
+      sphere.material.color.set(
+        texture ? 0xffffff : world === "moon" ? 0x929eaf : 0xb65c42
+      );
+      sphere.material.needsUpdate = true;
+      setMarkers(world);
+      status.textContent = texture
+        ? world.toUpperCase() + " · DRAG TO ROTATE"
+        : world.toUpperCase() + " · TEXTURE UNAVAILABLE · DRAG TO ROTATE";
+    }
+
+    document.querySelectorAll("[data-world]").forEach(button => {
+      button.addEventListener("click", () => selectWorld(button.dataset.world));
+    });
+
+    canvas.style.touchAction = "none";
+    canvas.addEventListener("pointerdown", event => {
+      dragging = true;
+      lastX = event.clientX;
+      lastY = event.clientY;
+      canvas.setPointerCapture(event.pointerId);
+    });
+
+    canvas.addEventListener("pointermove", event => {
+      if (!dragging) return;
+      targetRotation += (event.clientX - lastX) * 0.008;
+      planet.rotation.x += (event.clientY - lastY) * 0.004;
+      lastX = event.clientX;
+      lastY = event.clientY;
+    });
+
+    function stopDrag() { dragging = false; }
+    canvas.addEventListener("pointerup", stopDrag);
+    canvas.addEventListener("pointercancel", stopDrag);
+
+    canvas.addEventListener("wheel", event => {
+      event.preventDefault();
+      zoom = Math.max(3.3, Math.min(6.5, zoom + event.deltaY * 0.004));
+      camera.position.z = zoom;
+    }, { passive: false });
+
+    function resize() {
+      const width = Math.max(1, viewer.clientWidth);
+      const height = Math.max(1, viewer.clientHeight);
+      renderer.setSize(width, height, false);
+      camera.aspect = width / height;
+      camera.updateProjectionMatrix();
+    }
+
+    if ("ResizeObserver" in window) {
+      new ResizeObserver(resize).observe(viewer);
+    } else {
+      window.addEventListener("resize", resize);
+    }
+    resize();
+
+    function animate() {
+      requestAnimationFrame(animate);
+      if (!dragging) planet.rotation.y += 0.0015;
+      planet.rotation.y += (targetRotation - planet.rotation.y) * 0.025;
+      ring.rotation.z += 0.0008;
+      stars.rotation.y += 0.00008;
+      renderer.render(scene, camera);
+    }
+
+    await selectWorld("moon");
+    animate();
+  } catch (error) {
+    console.error("3D explorer could not start:", error);
+    status.textContent = "3D VIEW UNAVAILABLE · CHECK INTERNET OR WEBGL";
+  }
+})();
+</script>
+<script id="FH_CLICKABLE_MISSION_MARKERS">
+(() => {
+  const canvas = document.getElementById("fh-planet-canvas");
+  const card = document.getElementById("fh-mission-card");
+  if (!canvas || !card) return;
+
+  const records = {
+    moon: [
+      {
+        name: "Surveyor 3", year: "1967 · MOON",
+        object: "Robotic lunar lander · Survey spacecraft",
+        detail: "Surveyor 3 landed on the Moon in 1967. Apollo 12 astronauts visited the lander in 1969 and returned selected components to Earth.",
+        legacy: "Those components allowed researchers to examine how hardware changed after prolonged exposure to the lunar environment.",
+        source: "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1967-035A"
+      },
+      {
+        name: "Apollo 12", year: "1969 · MOON",
+        object: "Crewed lunar mission · Descent stage and science equipment",
+        detail: "Apollo 12 landed near Surveyor 3. Its astronauts explored the lunar surface and deployed scientific experiments.",
+        legacy: "The mission demonstrated precision landing and helped scientists investigate the Moon's environment.",
+        source: "https://www.nasa.gov/mission/apollo-12/"
+      },
+      {
+        name: "Lunar Experiments", year: "APOLLO ERA · MOON",
+        object: "Scientific instruments · Surface experiment packages",
+        detail: "Apollo missions left instruments on the lunar surface to gather measurements after astronauts returned to Earth.",
+        legacy: "These experiments helped scientists study lunar seismic activity, heat flow and the Moon's physical environment.",
+        source: "https://science.nasa.gov/moon/"
+      }
+    ],
+    mars: [
+      {
+        name: "Mars Pathfinder", year: "1997 · MARS",
+        object: "Robotic lander and rover · Sojourner",
+        detail: "Mars Pathfinder delivered the Sojourner rover to Mars and tested a new approach to robotic surface exploration.",
+        legacy: "The mission demonstrated technologies and operations that influenced later Mars rover missions.",
+        source: "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1996-068A"
+      },
+      {
+        name: "Viking Landers", year: "1976 · MARS",
+        object: "Robotic landers · Imaging and life-detection experiments",
+        detail: "Viking 1 and Viking 2 returned images and conducted experiments on the Martian surface, including studies of its soil.",
+        legacy: "The missions greatly expanded knowledge of Mars and established foundations for future surface science.",
+        source: "https://science.nasa.gov/mission/viking-1/"
+      },
+      {
+        name: "Spirit & Opportunity", year: "2004 · MARS",
+        object: "Twin robotic rovers · Mobile geological laboratories",
+        detail: "The twin rovers examined Martian rocks and soils to investigate the planet's geological and environmental history.",
+        legacy: "Their findings provided strong evidence that liquid water had influenced parts of ancient Mars.",
+        source: "https://science.nasa.gov/mission/mars-exploration-rovers/"
+      }
+    ]
+  };
+
+  const show = (mission, world) => {
+    document.getElementById("fh-mission-world").textContent =
+      world === "moon" ? "LUNAR ARTIFACT DOSSIER" : "MARS ARTIFACT DOSSIER";
+    document.getElementById("fh-mission-name").textContent = mission.name;
+    document.getElementById("fh-mission-year").textContent = mission.year;
+    document.getElementById("fh-mission-object").textContent = mission.object;
+    document.getElementById("fh-mission-detail").textContent = mission.detail;
+    document.getElementById("fh-mission-legacy").textContent = mission.legacy;
+    document.getElementById("fh-mission-source").href = mission.source;
+    card.style.display = "block";
+    card.scrollIntoView({ behavior: "smooth", block: "nearest" });
+  };
+
+  let downX = 0;
+  let downY = 0;
+  let moved = false;
+
+  canvas.addEventListener("pointerdown", e => {
+    downX = e.clientX;
+    downY = e.clientY;
+    moved = false;
+  }, true);
+
+  canvas.addEventListener("pointermove", e => {
+    if (Math.hypot(e.clientX - downX, e.clientY - downY) > 9) moved = true;
+  }, true);
+
+  canvas.addEventListener("pointerup", e => {
+    if (moved) return;
+
+    const rect = canvas.getBoundingClientRect();
+    const x = (e.clientX - rect.left) / rect.width;
+    const y = (e.clientY - rect.top) / rect.height;
+
+    // Approximate marker selection zones on the visible planet.
+    // These are interface hotspots, not geographic coordinates.
+    const centerX = 0.5;
+    const centerY = 0.5;
+    const dx = x - centerX;
+    const dy = y - centerY;
+
+    if (Math.sqrt(dx * dx + dy * dy) > 0.43) return;
+
+    const worldButton = document.querySelector('[data-world][style*="background: rgb(16, 43, 72)"]');
+    const marsActive = document.getElementById("fh-world-title")?.textContent === "THE RED PLANET";
+    const world = marsActive ? "mars" : "moon";
+    const list = records[world];
+
+    // Select a story based on the tap position.
+    const index = Math.abs(Math.floor((x * 7 + y * 11) * 10)) % list.length;
+    show(list[index], world);
+  }, true);
+})();
+</script>
+<script id="FH_HUD_STATUS_SYNC">
+(() => {
+  const worldText = document.getElementById("fh-hud-world");
+  const sector = document.getElementById("fh-hud-sector");
+  const coords = document.getElementById("fh-hud-coords");
+  const status = document.getElementById("fh-hud-status");
+  const title = document.getElementById("fh-world-title");
+  if (!worldText || !sector || !coords || !status) return;
+
+  const readWorld = () =>
+    title && title.textContent.includes("RED PLANET") ? "mars" : "moon";
+
+  function update(world) {
+    if (world !== "moon" && world !== "mars") world = readWorld();
+    const mars = world === "mars";
+    worldText.textContent = mars ? "MARS" : "MOON";
+    sector.textContent = mars ? "MARS-02" : "LUNAR-01";
+    coords.textContent = mars
+      ? "LAT +18.40° · LON +077.50°*"
+      : "LAT +00.67° · LON +023.47°*";
+    status.textContent = "SCANNING";
+  }
+
+  document.querySelectorAll("[data-world]").forEach(button => {
+    button.addEventListener("click", () => update(button.dataset.world));
+  });
+  update(readWorld());
+})();
+</script>
+</body>
+</html>

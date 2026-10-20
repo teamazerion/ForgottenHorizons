@@ -1,0 +1,855 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#050914">
+<meta name="description" content="Forgotten Horizons — explore the stories of the machines left behind on the Moon and Mars.">
+<title>Mission Control | Forgotten Horizons</title>
+
+<style>
+:root {
+  --bg: #050914;
+  --blue: #82ccff;
+  --muted: #a4b4ca;
+  --line: rgba(155, 203, 255, .22);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  color: #f4f7ff;
+  background: var(--bg);
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.hero {
+  position: relative;
+  isolation: isolate;
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background:
+    radial-gradient(ellipse at 75% 36%, rgba(42, 104, 166, .2), transparent 35%),
+    linear-gradient(180deg, #07101f 0%, #081426 50%, #050914 100%);
+}
+
+.hero::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  opacity: .75;
+  background-image:
+    radial-gradient(1px 1px at 8% 15%, white 99%, transparent),
+    radial-gradient(2px 2px at 23% 34%, #a9d9ff 99%, transparent),
+    radial-gradient(1px 1px at 44% 12%, white 99%, transparent),
+    radial-gradient(1px 1px at 61% 28%, white 99%, transparent),
+    radial-gradient(2px 2px at 87% 17%, #b9dfff 99%, transparent),
+    radial-gradient(1px 1px at 76% 51%, white 99%, transparent),
+    radial-gradient(1px 1px at 17% 70%, white 99%, transparent),
+    radial-gradient(1px 1px at 53% 65%, white 99%, transparent),
+    radial-gradient(1px 1px at 92% 73%, white 99%, transparent);
+  background-size: 350px 300px;
+  animation: stars 35s linear infinite;
+  pointer-events: none;
+}
+
+@keyframes stars {
+  from { transform: translateY(0); }
+  to { transform: translateY(-100px); }
+}
+
+nav {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 25px 6%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  border-bottom: 1px solid var(--line);
+}
+
+.brand {
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 2.5px;
+}
+
+.brand span {
+  color: var(--blue);
+}
+
+.nav-status {
+  color: var(--muted);
+  font-size: 10px;
+  letter-spacing: 1.5px;
+  text-align: right;
+}
+
+main {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 65px 6% 75px;
+}
+
+.content {
+  position: relative;
+  z-index: 2;
+  max-width: 690px;
+  animation: rise 1s ease both;
+}
+
+@keyframes rise {
+  from { opacity: 0; transform: translateY(18px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.eyebrow {
+  color: var(--blue);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 3px;
+  line-height: 1.8;
+}
+
+h1 {
+  margin: 23px 0;
+  font-size: clamp(43px, 10vw, 86px);
+  line-height: .98;
+  letter-spacing: -3px;
+  font-weight: 800;
+}
+
+h1 span {
+  display: block;
+  color: var(--blue);
+}
+
+.intro {
+  max-width: 540px;
+  color: #bac7d9;
+  font-size: 15px;
+  line-height: 1.9;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 15px;
+  margin-top: 34px;
+}
+
+.primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  padding: 17px 22px;
+  background: #b9e3ff;
+  color: #07101c;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+  transition: transform .2s, background .2s;
+}
+
+.primary:hover {
+  transform: translateY(-3px);
+  background: white;
+}
+
+.secondary {
+  padding: 15px 0;
+  color: #c6d4e7;
+  font-size: 12px;
+}
+
+.secondary:hover {
+  color: white;
+}
+
+.orbit {
+  position: absolute;
+  z-index: -1;
+  width: clamp(220px, 42vw, 490px);
+  aspect-ratio: 1;
+  right: -5%;
+  top: 25%;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at 32% 28%, #d9e7f1 0%, #8396aa 10%, #37495e 34%, #111c2d 64%, #070c16 72%);
+  box-shadow:
+    -25px 15px 80px rgba(70, 143, 208, .13),
+    inset -25px -18px 45px rgba(0, 0, 0, .7);
+  opacity: .68;
+  pointer-events: none;
+}
+
+.orbit::after {
+  content: "";
+  position: absolute;
+  width: 145%;
+  height: 28%;
+  left: -22%;
+  top: 40%;
+  border: 1px solid rgba(130, 204, 255, .28);
+  border-radius: 50%;
+  transform: rotate(-22deg);
+}
+
+.bottom {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 18px;
+  padding: 22px 6%;
+  border-top: 1px solid var(--line);
+  color: #8295ad;
+  font-size: 10px;
+  letter-spacing: 1.5px;
+}
+
+.bottom strong {
+  color: #cbd8e9;
+  font-weight: 600;
+}
+
+.story {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 75px 6%;
+}
+
+.story h2 {
+  max-width: 600px;
+  font-size: clamp(28px, 6vw, 44px);
+  line-height: 1.15;
+}
+
+.story p {
+  max-width: 650px;
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.9;
+}
+
+footer {
+  padding: 25px 6%;
+  border-top: 1px solid var(--line);
+  color: #7f91a9;
+  font-size: 11px;
+  line-height: 1.8;
+}
+
+@media (max-width: 600px) {
+  nav { padding: 21px 6%; }
+  .brand { font-size: 11px; letter-spacing: 1.5px; }
+  .nav-status { font-size: 9px; }
+  main { padding-top: 65px; padding-bottom: 85px; }
+  h1 { letter-spacing: -2px; }
+  .orbit {
+    width: 260px;
+    right: -105px;
+    top: 15%;
+    opacity: .35;
+  }
+  .intro { font-size: 14px; }
+  .primary { width: 100%; }
+  .bottom { font-size: 9px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: .01ms !important;
+  }
+}
+</style>
+
+<style id="FH_HOLOGRAPHIC_HUD">
+#fh-3d-viewer{isolation:isolate}
+.fh-hud{position:absolute;inset:0;z-index:3;pointer-events:none;overflow:hidden;color:#a9e7ff;font-family:monospace;text-shadow:0 0 8px #36aaff88}
+.fh-hud-corner{position:absolute;width:24px;height:24px;border-color:#76d9ff;border-style:solid;opacity:.85}
+.fh-hud-tl{top:48px;left:14px;border-width:1px 0 0 1px}
+.fh-hud-tr{top:48px;right:14px;border-width:1px 1px 0 0}
+.fh-hud-bl{bottom:40px;left:14px;border-width:0 0 1px 1px}
+.fh-hud-br{bottom:40px;right:14px;border-width:0 1px 1px 0}
+.fh-hud-reticle{position:absolute;left:50%;top:50%;width:90px;height:90px;transform:translate(-50%,-50%);border:1px solid #64caff55;border-radius:50%;box-shadow:0 0 18px #299cff18}
+.fh-hud-reticle:before,.fh-hud-reticle:after{content:"";position:absolute;background:#78dcff88}
+.fh-hud-reticle:before{width:120%;height:1px;left:-10%;top:50%}
+.fh-hud-reticle:after{height:120%;width:1px;top:-10%;left:50%}
+.fh-hud-sweep{position:absolute;left:0;right:0;top:0;height:2px;background:linear-gradient(90deg,transparent,#64dcff,transparent);opacity:.7;box-shadow:0 0 14px #36bfff;animation:fhScan 5s linear infinite}
+.fh-hud-readout{position:absolute;right:25px;top:55px;text-align:right;font-size:9px;line-height:1.8;letter-spacing:1px}
+.fh-hud-readout span{color:#e4f8ff}
+.fh-hud-bottom{position:absolute;left:25px;bottom:48px;font-size:9px;line-height:1.8;letter-spacing:1px}
+.fh-hud-bar{height:3px;width:100px;background:#163c55;margin-top:5px;overflow:hidden}
+.fh-hud-bar:after{content:"";display:block;height:100%;width:35%;background:#69d8ff;box-shadow:0 0 10px #69d8ff;animation:fhSweepBar 2.4s ease-in-out infinite alternate}
+.fh-hud-blink{animation:fhBlink 1.8s steps(2,end) infinite}
+@keyframes fhScan{from{transform:translateY(0)}to{transform:translateY(320px)}}
+@keyframes fhSweepBar{from{transform:translateX(0)}to{transform:translateX(185%)}}
+@keyframes fhBlink{50%{opacity:.45}}
+@media(max-width:480px){.fh-hud-readout{right:22px;top:58px;font-size:8px}.fh-hud-bottom{left:22px;bottom:47px;font-size:8px}.fh-hud-reticle{width:66px;height:66px}}
+@media(prefers-reduced-motion:reduce){.fh-hud-sweep,.fh-hud-bar:after,.fh-hud-blink{animation:none}}
+</style>
+
+
+<style id="FH_CONTROL_CHALLENGE">
+#fh-command-center{padding:64px 6%;background:radial-gradient(ellipse at 50% 0%,#102b45 0%,#070d18 65%);color:#e9f5ff;font-family:inherit}
+#fh-command-center *{box-sizing:border-box}
+.fhcc-kicker{font:10px monospace;letter-spacing:3px;color:#70d7ff}
+.fhcc-title{font-size:clamp(25px,4vw,38px);margin:12px 0;color:#f3f8ff}
+.fhcc-sub{color:#91a9c2;font-size:13px;line-height:1.8;max-width:650px}
+.fhcc-stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin:28px 0}
+.fhcc-stat,.fhcc-panel{background:linear-gradient(145deg,#102238dd,#091321ee);border:1px solid #254764;border-radius:10px;padding:19px}
+.fhcc-stat small{display:block;color:#91a9c2;font:10px monospace;letter-spacing:1px}
+.fhcc-number{font-size:30px;color:#86ddff;margin:10px 0 4px}
+.fhcc-note{font-size:11px;color:#7894b1}
+.fhcc-grid{display:grid;grid-template-columns:1fr 1.2fr;gap:15px}
+.fhcc-panel h3{margin:8px 0 12px;font-size:19px}
+.fhcc-line{height:5px;background:#1b3045;border-radius:10px;overflow:hidden;margin:12px 0 18px}
+.fhcc-line span{display:block;width:100%;height:100%;background:linear-gradient(90deg,#2785ff,#7ce7ff)}
+.fhcc-tag{font:10px monospace;letter-spacing:1px;color:#77d8ff}
+.fhcc-question{font-size:16px;line-height:1.6;margin:15px 0}
+.fhcc-options{display:grid;gap:9px}
+.fhcc-option{padding:12px;text-align:left;border:1px solid #294b68;border-radius:6px;background:#0b1929;color:#dbeeff;font:inherit;font-size:13px;cursor:pointer}
+.fhcc-option:hover:not(:disabled){border-color:#79dfff;background:#10263a}
+.fhcc-option:disabled{cursor:default;opacity:.8}
+.fhcc-option.fhcc-correct{border-color:#51dfad;background:#10352e}
+.fhcc-option.fhcc-wrong{border-color:#ff9b80;background:#39201f}
+.fhcc-feedback{min-height:48px;font-size:12px;color:#a9c0d7;line-height:1.7;margin:13px 0}
+.fhcc-btn{padding:11px 15px;border:1px solid #79dfff;border-radius:5px;background:#102a40;color:#e9f8ff;font:11px monospace;letter-spacing:1px;cursor:pointer}
+.fhcc-btn:focus-visible,.fhcc-option:focus-visible{outline:2px solid white;outline-offset:3px}
+@media(max-width:600px){.fhcc-stats{gap:8px}.fhcc-stat{padding:12px}.fhcc-number{font-size:24px}.fhcc-stat small{font-size:8px}.fhcc-grid{grid-template-columns:1fr}#fh-command-center{padding:45px 5%}}
+</style>
+
+
+<style id="FH_TIMELINE_STYLES">
+#fh-timeline{padding:65px 6%;color:#edf7ff;background:radial-gradient(ellipse at 50% 0%,#122c45,#070c16 72%);font-family:inherit}
+#fh-timeline *{box-sizing:border-box}
+.fht-kicker{font:10px monospace;letter-spacing:3px;color:#7bdcff}
+.fht-heading{font-size:clamp(26px,4vw,38px);margin:12px 0}
+.fht-intro{font-size:13px;color:#98aec5;line-height:1.8;max-width:660px}
+.fht-filters{display:flex;gap:8px;flex-wrap:wrap;margin:25px 0 18px}
+.fht-filter,.fht-year,.fht-mission{font:11px monospace;cursor:pointer;color:#cfeeff;background:#0b1928;border:1px solid #294c68;border-radius:5px;padding:10px 13px}
+.fht-filter[aria-pressed="true"],.fht-year[aria-pressed="true"]{border-color:#7ce1ff;background:#12314a;box-shadow:0 0 14px #35aaff20}
+.fht-year-row{display:flex;gap:8px;overflow-x:auto;padding:5px 2px 17px}
+.fht-year{flex:0 0 auto;min-width:75px}
+.fht-track{height:2px;background:linear-gradient(90deg,#1d5277,#7ce1ff,#1d5277);margin:0 0 25px;position:relative}
+.fht-track:after{content:"";position:absolute;top:-3px;left:0;width:8px;height:8px;border-radius:50%;background:#8ceaff;box-shadow:0 0 12px #65d9ff;animation:fht-travel 5s linear infinite}
+@keyframes fht-travel{from{left:0}to{left:calc(100% - 8px)}}
+.fht-cards{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.fht-card{padding:18px;background:linear-gradient(145deg,#10243a,#091321);border:1px solid #25435e;border-radius:8px;min-width:0}
+.fht-card[hidden]{display:none}
+.fht-card-top{font:10px monospace;letter-spacing:1px;color:#7ddfff}
+.fht-mission{width:100%;text-align:left;margin-top:12px;font-size:13px;line-height:1.6}
+.fht-mission:focus-visible,.fht-filter:focus-visible,.fht-year:focus-visible{outline:2px solid white;outline-offset:3px}
+.fht-detail{margin-top:12px;padding-top:12px;border-top:1px solid #25435e;color:#a8bfd4;font-size:12px;line-height:1.8}
+.fht-detail[hidden]{display:none}
+.fht-detail a{color:#83dcff}
+.fht-empty{color:#91a9c2;font-size:12px;line-height:1.8}
+@media(max-width:600px){#fh-timeline{padding:45px 5%}.fht-cards{grid-template-columns:1fr}.fht-card{padding:15px}}
+@media(prefers-reduced-motion:reduce){#fh-timeline *{animation:none!important;scroll-behavior:auto!important}}
+</style>
+
+
+<style id="FH_NETWORK_STYLES">
+#FH_MISSION_NETWORK{padding:55px 6%;color:#edf7ff;background:radial-gradient(ellipse at 50% 0%,#102b43,#050914 72%)}
+#FH_MISSION_NETWORK *{box-sizing:border-box}
+.fhn-kicker,.fhn-tag{font:10px monospace;letter-spacing:2px;color:#7bdcff}
+.fhn-title{font-size:clamp(27px,4vw,40px);margin:13px 0}
+.fhn-intro{max-width:680px;color:#9fb5ca;font-size:13px;line-height:1.8}
+.fhn-filters,.fhn-links{display:flex;gap:8px;flex-wrap:wrap;margin:20px 0}
+.fhn-filter,.fhn-node,.fhn-related{cursor:pointer;color:#dff4ff;background:#0a1929;border:1px solid #294c68;border-radius:6px;padding:10px;font:11px monospace}
+.fhn-filter[aria-pressed=true],.fhn-node[aria-pressed=true]{border-color:#7ce1ff;background:#12314a;box-shadow:0 0 14px #35aaff20}
+.fhn-map{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;padding:18px 0}
+.fhn-node{min-height:85px;line-height:1.5;overflow-wrap:anywhere}
+.fhn-node span{display:block;color:#7ddfff;font-size:10px;margin-bottom:5px}
+.fhn-node[hidden]{display:none}
+.fhn-detail{margin-top:10px;padding:22px;border:1px solid #244965;border-radius:8px;background:linear-gradient(140deg,#10243a,#081321)}
+.fhn-detail h3{font-size:23px;margin:12px 0 8px}
+.fhn-detail p{font-size:13px;line-height:1.8;color:#a9bfd4}
+.fhn-related{font-size:10px}
+.fhn-archive{display:inline-block;margin-top:16px;color:#8ce5ff;font:11px monospace}
+.fhn-node:focus-visible,.fhn-filter:focus-visible,.fhn-related:focus-visible{outline:2px solid white;outline-offset:3px}
+@media(max-width:600px){#FH_MISSION_NETWORK{padding:40px 5%}.fhn-map{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}.fhn-node{min-height:76px;padding:8px;font-size:10px}.fhn-detail{padding:15px}}
+</style>
+
+</head>
+<body>
+<nav>
+    <a class="brand" href="index.html">FH <span>/</span> EXPLORATION</a>
+    <div class="nav-status">INDEPENDENT MISSION ARCHIVE<br>FIELD RECORD · 2026</div>
+  
+<div style="display:flex;gap:12px;flex-wrap:wrap;align-items:center;font-size:12px">
+<a href="index.html">HOME</a>
+<a href="dashboard.html">MISSION CONTROL</a>
+<a href="explore.html">EXPLORE</a>
+<a href="missions.html">ARCHIVE</a>
+<a href="about.html">ABOUT</a>
+</div>
+</nav>
+<section id="fh-command-center">
+  <div class="fhcc-kicker">FH / COMMAND SYSTEM 01</div>
+  <h2 class="fhcc-title">Mission Control</h2>
+  <p class="fhcc-sub">Track the archive. Explore the evidence. Discover the machines that remain beyond Earth.</p>
+
+  <div class="fhcc-stats">
+    <div class="fhcc-stat">
+      <small>MISSION FILES</small>
+      <div class="fhcc-number" data-fh-count="8">0</div>
+      <div class="fhcc-note">Archive catalogue</div>
+    </div>
+    <div class="fhcc-stat">
+      <small>WORLDS EXPLORED</small>
+      <div class="fhcc-number" data-fh-count="2">0</div>
+      <div class="fhcc-note">Moon / Mars</div>
+    </div>
+    <div class="fhcc-stat">
+      <small>CHALLENGE FILES</small>
+      <div class="fhcc-number" data-fh-count="5">0</div>
+      <div class="fhcc-note">Knowledge missions</div>
+    </div>
+  </div>
+
+  <div class="fhcc-grid">
+    <div class="fhcc-panel">
+      <div class="fhcc-tag">01 / SYSTEM STATUS</div>
+      <h3>Exploration systems</h3>
+      <p class="fhcc-sub">The archive interface is ready for your next discovery.</p>
+      <div class="fhcc-line"><span></span></div>
+      <div class="fhcc-tag">ARCHIVE <span style="color:#dcefff">· ONLINE</span></div>
+      <p class="fhcc-note" style="line-height:1.8">Catalogue: 8 mission files<br>Destinations: Moon and Mars<br>Challenge: Ready to launch</p>
+    </div>
+
+    <div class="fhcc-panel" id="FH_CONTROL_CHALLENGE">
+      <div class="fhcc-tag">02 / FIELD CHALLENGE</div>
+      <h3>Space Explorer</h3>
+      <p class="fhcc-sub">Identify the missions. Unlock the stories.</p>
+      <div style="display:flex;justify-content:space-between;gap:10px;margin-top:20px">
+        <span class="fhcc-tag" id="fhcc-progress">FILE 01 / 05</span>
+        <span class="fhcc-tag">SCORE <span id="fhcc-score">0</span></span>
+      </div>
+      <div class="fhcc-question" id="fhcc-question">Loading mission file…</div>
+      <div class="fhcc-options" id="fhcc-options"></div>
+      <div class="fhcc-feedback" id="fhcc-feedback" aria-live="polite">Select an answer to investigate.</div>
+      <button class="fhcc-btn" id="fhcc-next" type="button" disabled>NEXT FILE →</button>
+    </div>
+  </div>
+</section>
+
+<section id="FH_MISSION_NETWORK" aria-labelledby="fhn-title">
+  <div class="fhn-kicker">FH / DISCOVERY INTELLIGENCE 02</div>
+  <h2 class="fhn-title" id="fhn-title">Mission Connection Network</h2>
+  <p class="fhn-intro">Eight mission records. Two worlds. Discover how robotic pioneers, landers and rovers connect across the history of exploration.</p>
+
+  <div class="fhn-filters" aria-label="Filter by world">
+    <button class="fhn-filter" type="button" data-fhn-world="all" aria-pressed="true">ALL WORLDS</button>
+    <button class="fhn-filter" type="button" data-fhn-world="moon" aria-pressed="false">THE MOON</button>
+    <button class="fhn-filter" type="button" data-fhn-world="mars" aria-pressed="false">MARS</button>
+  </div>
+
+  <div class="fhn-map" aria-label="Mission records">
+    <button class="fhn-node" type="button" data-fhn-id="surveyor" data-world="moon" aria-pressed="true"><span>MOON · 01</span>Surveyor 3</button>
+    <button class="fhn-node" type="button" data-fhn-id="apollo" data-world="moon" aria-pressed="false"><span>MOON · 02</span>Apollo Lunar Module</button>
+    <button class="fhn-node" type="button" data-fhn-id="pathfinder" data-world="mars" aria-pressed="false"><span>MARS · 01</span>Mars Pathfinder</button>
+    <button class="fhn-node" type="button" data-fhn-id="sojourner" data-world="mars" aria-pressed="false"><span>MARS · 02</span>Sojourner Rover</button>
+    <button class="fhn-node" type="button" data-fhn-id="viking1" data-world="mars" aria-pressed="false"><span>MARS · 03</span>Viking 1 Lander</button>
+    <button class="fhn-node" type="button" data-fhn-id="viking2" data-world="mars" aria-pressed="false"><span>MARS · 04</span>Viking 2 Lander</button>
+    <button class="fhn-node" type="button" data-fhn-id="spirit" data-world="mars" aria-pressed="false"><span>MARS · 05</span>Spirit Rover</button>
+    <button class="fhn-node" type="button" data-fhn-id="opportunity" data-world="mars" aria-pressed="false"><span>MARS · 06</span>Opportunity Rover</button>
+  </div>
+
+  <div class="fhn-detail" aria-live="polite">
+    <div class="fhn-tag" id="fhn-detail-tag">SELECTED RECORD / MOON</div>
+    <h3 id="fhn-detail-title">Surveyor 3</h3>
+    <p id="fhn-detail-text">A robotic lunar lander later visited by Apollo 12 astronauts, who recovered selected components for study on Earth.</p>
+    <div class="fhn-tag">RELATED DISCOVERIES</div>
+    <div class="fhn-links" id="fhn-related"></div>
+    <a class="fhn-archive" href="missions.html">OPEN THE MISSION ARCHIVE ↗</a>
+  </div>
+</section>
+
+<section id="fh-timeline" aria-labelledby="fht-title">
+  <div class="fht-kicker">FH / EXPLORATION CHRONOLOGY</div>
+  <h2 class="fht-heading" id="fht-title">A History Beyond Earth</h2>
+  <p class="fht-intro">Select a year, choose a world, and open a mission file to discover the machines that became part of exploration history.</p>
+
+  <div class="fht-filters" aria-label="Filter timeline by destination">
+    <button class="fht-filter" type="button" data-fht-world="all" aria-pressed="true">ALL MISSIONS</button>
+    <button class="fht-filter" type="button" data-fht-world="moon" aria-pressed="false">THE MOON</button>
+    <button class="fht-filter" type="button" data-fht-world="mars" aria-pressed="false">MARS</button>
+  </div>
+
+  <div class="fht-year-row" id="fht-years" aria-label="Choose a mission year">
+    <button class="fht-year" type="button" data-fht-year="1967" aria-pressed="false">1967</button>
+    <button class="fht-year" type="button" data-fht-year="1969" aria-pressed="false">1969</button>
+    <button class="fht-year" type="button" data-fht-year="1976" aria-pressed="false">1976</button>
+    <button class="fht-year" type="button" data-fht-year="1997" aria-pressed="false">1997</button>
+    <button class="fht-year" type="button" data-fht-year="2004" aria-pressed="false">2004</button>
+  </div>
+  <div class="fht-track" aria-hidden="true"></div>
+
+  <div class="fht-cards" id="fht-cards">
+    <article class="fht-card" data-fht-card data-year="1967" data-world="moon">
+      <div class="fht-card-top">1967 · THE MOON</div>
+      <button class="fht-mission" type="button" aria-expanded="false">FILE 01 — Surveyor 3 ↗</button>
+      <div class="fht-detail" hidden>Surveyor 3 landed on the Moon in 1967. Its story continued when Apollo 12 astronauts visited the spacecraft two years later.</div>
+    </article>
+
+    <article class="fht-card" data-fht-card data-year="1969" data-world="moon">
+      <div class="fht-card-top">1969 · THE MOON</div>
+      <button class="fht-mission" type="button" aria-expanded="false">FILE 02 — Apollo 12 ↗</button>
+      <div class="fht-detail" hidden>Apollo 12 landed near Surveyor 3. The crew examined the earlier robotic lander and returned selected components to Earth.</div>
+    </article>
+
+    <article class="fht-card" data-fht-card data-year="1976" data-world="mars">
+      <div class="fht-card-top">1976 · MARS</div>
+      <button class="fht-mission" type="button" aria-expanded="false">FILE 03 — Viking 1 ↗</button>
+      <div class="fht-detail" hidden>Viking 1 landed on Mars in 1976, returning surface images and conducting experiments on the Red Planet.</div>
+    </article>
+
+    <article class="fht-card" data-fht-card data-year="1997" data-world="mars">
+      <div class="fht-card-top">1997 · MARS</div>
+      <button class="fht-mission" type="button" aria-expanded="false">FILE 04 — Mars Pathfinder ↗</button>
+      <div class="fht-detail" hidden>Mars Pathfinder delivered the Sojourner rover, demonstrating a new way to explore the Martian surface with a small mobile robot.</div>
+    </article>
+
+    <article class="fht-card" data-fht-card data-year="2004" data-world="mars">
+      <div class="fht-card-top">2004 · MARS</div>
+      <button class="fht-mission" type="button" aria-expanded="false">FILE 05 — Spirit & Opportunity ↗</button>
+      <div class="fht-detail" hidden>These twin rovers explored different parts of Mars and found evidence that water had shaped its ancient environment.</div>
+    </article>
+  </div>
+
+  <p class="fht-empty" id="fht-empty" hidden>No mission files match this filter. Choose another world or year.</p>
+  <p class="fht-intro" style="margin-top:24px">Explore the complete catalogue in the <a href="missions.html" style="color:#83dcff">Mission Archive ↗</a></p>
+</section>
+<footer>
+  FORGOTTEN HORIZONS · INDEPENDENT EDUCATIONAL PROJECT<br>
+  NASA names and mission information are used for educational storytelling.
+  This project is not affiliated with or endorsed by NASA.
+</footer>
+<script id="FH_CONTROL_CHALLENGE_SCRIPT">
+(() => {
+  const root = document.getElementById("FH_CONTROL_CHALLENGE");
+  if (!root) return;
+
+  document.querySelectorAll("[data-fh-count]").forEach(el => {
+    const target = Number(el.dataset.fhCount);
+    let current = 0;
+    const step = Math.max(1, Math.ceil(target / 12));
+    const timer = setInterval(() => {
+      current = Math.min(target, current + step);
+      el.textContent = current;
+      if (current >= target) clearInterval(timer);
+    }, 55);
+  });
+
+  const questions = [
+    {
+      q: "Which Apollo mission visited the Surveyor 3 spacecraft on the Moon?",
+      options: ["Apollo 11", "Apollo 12", "Apollo 15", "Apollo 17"],
+      answer: 1,
+      fact: "Apollo 12 landed near Surveyor 3 in 1969. Astronauts examined the robotic lander and returned selected parts to Earth."
+    },
+    {
+      q: "Which mission delivered the Sojourner rover to Mars?",
+      options: ["Viking 1", "Spirit", "Mars Pathfinder", "Curiosity"],
+      answer: 2,
+      fact: "Mars Pathfinder landed in 1997 and deployed Sojourner, a pioneering small rover."
+    },
+    {
+      q: "When did NASA's Viking 1 lander reach Mars?",
+      options: ["1969", "1976", "1997", "2004"],
+      answer: 1,
+      fact: "Viking 1 landed in 1976 and conducted experiments while returning images from the Martian surface."
+    },
+    {
+      q: "Which pair of rovers landed on Mars in 2004?",
+      options: ["Spirit and Opportunity", "Viking 1 and Viking 2", "Curiosity and Perseverance", "Sojourner and Curiosity"],
+      answer: 0,
+      fact: "Spirit and Opportunity explored Mars and found evidence that liquid water had shaped parts of its ancient environment."
+    },
+    {
+      q: "Why can abandoned spacecraft still matter after a mission ends?",
+      options: ["They become new satellites", "They keep transmitting forever", "They preserve engineering and exploration history", "They are always recovered"],
+      answer: 2,
+      fact: "Hardware left on other worlds can document human and robotic exploration, engineering decisions, and the history of each mission."
+    }
+  ];
+
+  const questionEl = document.getElementById("fhcc-question");
+  const optionsEl = document.getElementById("fhcc-options");
+  const feedbackEl = document.getElementById("fhcc-feedback");
+  const progressEl = document.getElementById("fhcc-progress");
+  const scoreEl = document.getElementById("fhcc-score");
+  const nextBtn = document.getElementById("fhcc-next");
+  let index = 0, score = 0, answered = false;
+
+  function render() {
+    answered = false;
+    const item = questions[index];
+    progressEl.textContent = `FILE ${String(index + 1).padStart(2, "0")} / ${questions.length}`;
+    questionEl.textContent = item.q;
+    optionsEl.replaceChildren();
+    feedbackEl.textContent = "Select an answer to investigate.";
+    nextBtn.disabled = true;
+    nextBtn.textContent = index === questions.length - 1 ? "VIEW RESULTS →" : "NEXT FILE →";
+
+    item.options.forEach((option, i) => {
+      const btn = document.createElement("button");
+      btn.type = "button";
+      btn.className = "fhcc-option";
+      btn.textContent = option;
+      btn.addEventListener("click", () => choose(i));
+      optionsEl.appendChild(btn);
+    });
+  }
+
+  function choose(choice) {
+    if (answered) return;
+    answered = true;
+    const item = questions[index];
+    const buttons = [...optionsEl.querySelectorAll("button")];
+    buttons.forEach((btn, i) => {
+      btn.disabled = true;
+      if (i === item.answer) btn.classList.add("fhcc-correct");
+      else if (i === choice) btn.classList.add("fhcc-wrong");
+    });
+    if (choice === item.answer) {
+      score++;
+      scoreEl.textContent = score;
+      feedbackEl.textContent = "CORRECT — " + item.fact;
+    } else {
+      feedbackEl.textContent = "NOT QUITE — " + item.fact;
+    }
+    nextBtn.disabled = false;
+  }
+
+  nextBtn.addEventListener("click", () => {
+    if (!answered) return;
+    if (index < questions.length - 1) {
+      index++;
+      render();
+    } else {
+      progressEl.textContent = "CHALLENGE COMPLETE";
+      questionEl.textContent = `Explorer score: ${score} / ${questions.length}`;
+      optionsEl.replaceChildren();
+      feedbackEl.textContent = score === questions.length
+        ? "Outstanding work, explorer. You identified every mission correctly."
+        : "Mission complete. Review the facts above and try again to improve your score.";
+      nextBtn.textContent = "REPLAY CHALLENGE ↻";
+      nextBtn.disabled = false;
+      nextBtn.onclick = () => {
+        index = 0;
+        score = 0;
+        scoreEl.textContent = "0";
+        nextBtn.onclick = null;
+        render();
+      };
+    }
+  });
+
+  render();
+})();
+</script>
+<script id="FH_TIMELINE_INTERACTIONS">
+(() => {
+  const root = document.getElementById("fh-timeline");
+  if (!root || root.dataset.ready) return;
+  root.dataset.ready = "true";
+
+  const cards = [...root.querySelectorAll("[data-fht-card]")];
+  const filters = [...root.querySelectorAll("[data-fht-world]")];
+  const years = [...root.querySelectorAll("[data-fht-year]")];
+  const empty = root.querySelector("#fht-empty");
+  let world = "all";
+  let year = "";
+
+  function refresh() {
+    let shown = 0;
+    cards.forEach(card => {
+      const visible = (world === "all" || card.dataset.world === world)
+        && (!year || card.dataset.year === year);
+      card.hidden = !visible;
+      if (visible) shown++;
+    });
+    empty.hidden = shown !== 0;
+  }
+
+  filters.forEach(btn => btn.addEventListener("click", () => {
+    world = btn.dataset.fhtWorld;
+    filters.forEach(b => b.setAttribute("aria-pressed", String(b === btn)));
+    refresh();
+  }));
+
+  years.forEach(btn => btn.addEventListener("click", () => {
+    year = year === btn.dataset.fhtYear ? "" : btn.dataset.fhtYear;
+    years.forEach(b => b.setAttribute("aria-pressed", String(b === btn)));
+    refresh();
+    const first = cards.find(card => !card.hidden);
+    if (first) first.scrollIntoView({behavior:"smooth", block:"nearest"});
+  }));
+
+  cards.forEach(card => {
+    const btn = card.querySelector(".fht-mission");
+    const detail = card.querySelector(".fht-detail");
+    btn.addEventListener("click", () => {
+      const open = btn.getAttribute("aria-expanded") !== "true";
+      btn.setAttribute("aria-expanded", String(open));
+      detail.hidden = !open;
+    });
+  });
+
+  refresh();
+})();
+</script>
+
+<script id="FH_NETWORK_INTERACTIONS">
+(() => {
+  const root = document.getElementById("FH_MISSION_NETWORK");
+  if (!root) return;
+
+  const records = {
+    surveyor: {
+      world: "MOON",
+      title: "Surveyor 3",
+      text: "Surveyor 3 landed on the Moon in 1967. Apollo 12 astronauts visited the spacecraft in 1969 and recovered selected parts for study on Earth.",
+      related: ["apollo"]
+    },
+    apollo: {
+      world: "MOON",
+      title: "Apollo Lunar Module",
+      text: "Apollo Lunar Modules carried astronauts to the lunar surface. Apollo 12's visit to Surveyor 3 linked robotic reconnaissance with crewed exploration.",
+      related: ["surveyor"]
+    },
+    pathfinder: {
+      world: "MARS",
+      title: "Mars Pathfinder",
+      text: "Mars Pathfinder landed in 1997 and deployed Sojourner, demonstrating a new approach to exploring the Martian surface.",
+      related: ["sojourner"]
+    },
+    sojourner: {
+      world: "MARS",
+      title: "Sojourner Rover",
+      text: "Sojourner was the small rover deployed by Mars Pathfinder in 1997. It explored nearby rocks and sent scientific data back to Earth through its lander.",
+      related: ["pathfinder"]
+    },
+    viking1: {
+      world: "MARS",
+      title: "Viking 1 Lander",
+      text: "Viking 1 landed on Mars in 1976 and conducted surface experiments. It was one of two Viking landers sent to investigate the planet.",
+      related: ["viking2"]
+    },
+    viking2: {
+      world: "MARS",
+      title: "Viking 2 Lander",
+      text: "Viking 2 landed on Mars in 1976 at a different site from Viking 1. Together, the missions expanded early knowledge of the Martian surface.",
+      related: ["viking1"]
+    },
+    spirit: {
+      world: "MARS",
+      title: "Spirit Rover",
+      text: "Spirit landed on Mars in 2004. It investigated rocks and soil, helping scientists learn about the planet's past environments.",
+      related: ["opportunity"]
+    },
+    opportunity: {
+      world: "MARS",
+      title: "Opportunity Rover",
+      text: "Opportunity was Spirit's twin rover. It landed on Mars in 2004 and found evidence that liquid water had affected rocks in the planet's past.",
+      related: ["spirit"]
+    }
+  };
+
+  const nodes = [...root.querySelectorAll(".fhn-node")];
+  const filters = [...root.querySelectorAll(".fhn-filter")];
+  const title = root.querySelector("#fhn-detail-title");
+  const tag = root.querySelector("#fhn-detail-tag");
+  const description = root.querySelector("#fhn-detail-text");
+  const relatedBox = root.querySelector("#fhn-related");
+  let activeWorld = "all";
+  let selected = "surveyor";
+
+  function showMission(id) {
+    const item = records[id];
+    if (!item) return;
+    selected = id;
+
+    nodes.forEach(node => {
+      node.setAttribute("aria-pressed", String(node.dataset.fhnId === id));
+    });
+
+    tag.textContent = "SELECTED RECORD / " + item.world;
+    title.textContent = item.title;
+    description.textContent = item.text;
+    relatedBox.replaceChildren();
+
+    item.related.forEach(relatedId => {
+      const related = records[relatedId];
+      const button = document.createElement("button");
+      button.type = "button";
+      button.className = "fhn-related";
+      button.textContent = "↔ " + related.title;
+      button.addEventListener("click", () => showMission(relatedId));
+      relatedBox.appendChild(button);
+    });
+  }
+
+  function applyFilter(world) {
+    activeWorld = world;
+
+    filters.forEach(button => {
+      button.setAttribute(
+        "aria-pressed",
+        String(button.dataset.fhnWorld === world)
+      );
+    });
+
+    nodes.forEach(node => {
+      node.hidden = world !== "all" && node.dataset.world !== world;
+    });
+
+    if (world !== "all" && records[selected].world.toLowerCase() !== world) {
+      const firstVisible = nodes.find(node => !node.hidden);
+      if (firstVisible) showMission(firstVisible.dataset.fhnId);
+    }
+  }
+
+  nodes.forEach(node => {
+    node.addEventListener("click", () => showMission(node.dataset.fhnId));
+  });
+
+  filters.forEach(button => {
+    button.addEventListener("click", () => applyFilter(button.dataset.fhnWorld));
+  });
+
+  showMission(selected);
+})();
+</script>
+
+</body>
+</html>

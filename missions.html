@@ -1,0 +1,652 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#050914">
+<title>Forgotten Horizons | Mission Files</title>
+
+<style>
+*{box-sizing:border-box}
+:root{--bg:#050914;--panel:#0e192b;--blue:#70c5ff;--muted:#a5b3ca;--line:#283b56}
+body{margin:0;background:var(--bg);color:#f4f7ff;font-family:Arial,sans-serif}
+a{color:var(--blue)}
+header{padding:20px 6%;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--line)}
+.logo{color:white;text-decoration:none;font-weight:900;letter-spacing:2px;font-size:13px}
+.back{font-size:12px;text-decoration:none}
+.hero{padding:48px 6% 30px}
+.eyebrow{font-size:11px;letter-spacing:3px;color:var(--blue);font-weight:bold}
+h1{font-size:clamp(38px,8vw,70px);line-height:1;margin:18px 0}
+.hero p{max-width:650px;line-height:1.8;color:var(--muted);font-size:14px}
+.tools{padding:10px 6% 20px}
+input{width:100%;max-width:560px;padding:15px;background:#0c1424;border:1px solid var(--line);border-radius:10px;color:white;font-size:15px}
+.filters{display:flex;gap:9px;flex-wrap:wrap;margin-top:14px}
+.filter{padding:10px 15px;border-radius:25px;border:1px solid var(--line);background:var(--panel);color:#dce8f8;font-weight:bold;cursor:pointer}
+.filter.active,.filter:hover{background:var(--blue);color:#06101b}
+#count{font-size:12px;color:var(--muted);margin-top:16px}
+.gallery{display:flex;gap:16px;overflow-x:auto;padding:10px 6% 35px;scroll-snap-type:x mandatory}/* CINEMATIC CARD ENTRANCE */
+@keyframes archiveReveal{
+  from{
+    opacity:0;
+    transform:translateY(18px);
+  }
+  to{
+    opacity:1;
+    transform:translateY(0);
+  }
+}
+.gallery .card{
+  animation:archiveReveal .7s ease both;
+}
+.gallery .card:nth-child(2){animation-delay:.08s}
+.gallery .card:nth-child(3){animation-delay:.16s}
+.gallery .card:nth-child(4){animation-delay:.24s}
+.gallery .card:nth-child(5){animation-delay:.32s}
+.gallery .card:nth-child(6){animation-delay:.40s}
+.gallery .card:nth-child(7){animation-delay:.48s}
+.gallery .card:nth-child(8){animation-delay:.56s}
+.card{flex:0 0 270px;background:var(--panel);border:1px solid var(--line);border-radius:16px;overflow:hidden;scroll-snap-align:start}
+.card{
+  transition:transform .3s ease,border-color .3s ease,box-shadow .3s ease;
+}
+.card:hover{
+  transform:translateY(-6px);
+  border-color:var(--blue);
+  box-shadow:0 12px 35px #0008,0 0 18px #70c5ff18;
+}
+.art{height:175px;position:relative;display:flex;justify-content:center;align-items:center;overflow:hidden;background:radial-gradient(circle at 50% 50%,#203f66,#080e1a 72%)}
+.art:after{content:"";position:absolute;inset:0;pointer-events:none;background-image:radial-gradient(#fff 0.7px,transparent 0.7px);background-size:23px 23px;opacity:.35}
+.art img{position:absolute;width:100%;height:100%;object-fit:cover}
+.planet{width:100px;height:100px;border-radius:50%;box-shadow:inset -18px -12px 25px #0009,0 0 35px #5aaaff44}
+.moon{background:radial-gradient(circle at 30% 25%,#ecebe4,#9299a5 65%,#454c59)}
+/* CINEMATIC STARFIELD */
+body::before{
+  content:"";
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  z-index:-1;
+  background-image:
+    radial-gradient(1px 1px at 20% 30%,#ffffffaa 99%,transparent),
+    radial-gradient(1px 1px at 70% 60%,#70c5ff99 99%,transparent),
+    radial-gradient(2px 2px at 40% 80%,#ffffff77 99%,transparent),
+    radial-gradient(1px 1px at 85% 15%,#ffffff99 99%,transparent);
+  background-size:220px 220px,300px 300px,260px 260px,340px 340px;
+  animation:starDrift 90s linear infinite;
+}
+@keyframes starDrift{
+  from{background-position:0 0,0 0,0 0,0 0}
+  to{background-position:220px 220px,-300px 300px,260px -260px,-340px 340px}
+}
+.mars{background:radial-gradient(circle at 30% 25%,#ffce9a,#b65336 65%,#4a201c)}
+.symbol{position:absolute;z-index:1;font-size:42px;filter:drop-shadow(0 3px 8px #000)}
+.card-body{padding:18px}
+.tag{font-size:10px;letter-spacing:2px;color:var(--blue);font-weight:bold}
+.card h2{font-size:20px;margin:12px 0}
+.card p{font-size:13px;line-height:1.7;color:var(--muted);min-height:64px}
+.open{width:100%;padding:12px;border:1px solid #405774;background:transparent;color:white;border-radius:8px;font-weight:bold;cursor:pointer}
+.open:hover{background:var(--blue);color:#06101b}
+.empty{display:none;padding:25px 6%;color:var(--muted)}
+footer{border-top:1px solid var(--line);padding:25px 6%;font-size:12px;line-height:1.8;color:var(--muted)}
+.modal{display:none;position:fixed;inset:0;z-index:10;background:#000d;padding:14px;align-items:center;justify-content:center}
+.modal.show{display:flex}
+.file{width:100%;max-width:720px;max-height:92vh;overflow-y:auto;background:#0b1424;border:1px solid #344b69;border-radius:18px}
+.file-head{padding:25px;background:radial-gradient(ellipse at top right,#17385a,#0b1424 70%);border-bottom:1px solid var(--line)}
+.close{float:right;background:#17243a;border:1px solid #4b617e;color:white;padding:9px 12px;border-radius:8px;cursor:pointer}
+.file h2{font-size:clamp(27px,6vw,42px);margin:20px 0 10px}
+.subtitle{color:var(--muted);font-size:14px;line-height:1.7}
+.file-content{padding:24px}
+.section-title{font-size:11px;color:var(--blue);letter-spacing:2px;margin:27px 0 12px}
+.section-title:first-child{margin-top:0}
+.file-content p{font-size:14px;color:#c4d0e2;line-height:1.9}
+.timeline{border-left:1px solid #45617e;margin-left:5px;padding-left:18px}
+.event{position:relative;margin:0 0 19px}
+.event:before{content:"";position:absolute;width:8px;height:8px;background:var(--blue);border-radius:50%;left:-23px;top:5px}
+.event strong{font-size:13px;color:white;display:block;margin-bottom:5px}
+.event span{font-size:13px;color:var(--muted);line-height:1.6}
+.fact{background:#101f34;border:1px solid #263d5a;border-radius:12px;padding:16px;margin-top:18px}
+.fact p{margin-bottom:0}
+.source{display:inline-block;margin-top:12px;font-weight:bold;text-decoration:none}
+.source:hover{text-decoration:underline}
+.disclaimer{font-size:11px!important;color:#8d9db5!important}
+@media(max-width:480px){.card{flex-basis:250px}.file-content,.file-head{padding:19px}}
+/* FORGOTTEN HORIZONS — MISSION TIMELINE */
+.timeline{
+  padding:65px 6%;
+  margin:20px 0;
+  background:linear-gradient(180deg,#050914,#0b1628,#050914);
+  border-top:1px solid #283b56;
+  border-bottom:1px solid #283b56;
+}
+.timeline h2{
+  max-width:650px;
+  font-size:clamp(30px,6vw,48px);
+  line-height:1.1;
+  margin:16px 0;
+}
+.timeline-intro{
+  max-width:620px;
+  color:var(--muted);
+  line-height:1.8;
+  font-size:14px;
+}
+.timeline-list{
+  max-width:760px;
+  margin:40px 0;
+  padding-left:26px;
+  border-left:2px solid #315579;
+}
+.timeline-item{
+  position:relative;
+  padding:0 0 32px 20px;
+}
+.timeline-item::before{
+  content:"";
+  position:absolute;
+  left:-34px;
+  top:5px;
+  width:12px;
+  height:12px;
+  border-radius:50%;
+  background:var(--blue);
+  box-shadow:0 0 16px #70c5ff99;
+}
+.timeline-date{
+  color:var(--blue);
+  font-size:11px;
+  font-weight:bold;
+  letter-spacing:2px;
+}
+.timeline-item h3{
+  color:#f4f7ff;
+  font-size:21px;
+  margin:10px 0;
+}
+.timeline-item p{
+  max-width:600px;
+  color:var(--muted);
+  font-size:14px;
+  line-height:1.8;
+  margin:0;
+}
+.timeline-ending{
+  color:var(--blue);
+  font-size:11px;
+  font-weight:bold;
+  letter-spacing:2px;
+  line-height:1.8;
+}
+</style>
+
+</head>
+
+<body>
+<header>
+<a class="logo" href="index.html">FORGOTTEN HORIZONS</a>
+<a class="back" href="index.html">← HOME</a>
+</header>
+
+<section class="hero">
+<div class="eyebrow">FIELD ARCHIVE / 001—008</div>
+<h1>THE MACHINES<br>THAT REMAIN.</h1>
+<p>Every mission leaves something behind. Explore the machines that visited other worlds, the science they returned, and the stories that continue after contact ends.</p>
+</section>
+
+<section class="tools">
+<input id="search" type="search" placeholder="Search a mission or discovery..." aria-label="Search missions">
+<div class="filters">
+<button class="filter active" data-filter="all">ALL MISSIONS</button>
+<button class="filter" data-filter="moon">THE MOON</button>
+<button class="filter" data-filter="mars">MARS</button>
+</div>
+<p id="count">8 mission files</p>
+</section>
+
+<main>
+<section class="gallery" id="gallery" aria-label="Mission archive"></section>
+<div class="empty" id="empty">No matching mission files. Try another search.</div>
+</main>
+
+<section class="timeline" id="mission-timeline">
+  <p class="eyebrow">THE JOURNEY THROUGH TIME</p>
+  <h2>When the Machines Fell Silent.</h2>
+  <p class="timeline-intro">
+    Every mission has a beginning, a discovery, and a final transmission.
+    Explore the moments that became part of our history.
+  </p>
+
+  <div class="timeline-list">
+
+    <article class="timeline-item">
+      <span class="timeline-date">1967 — THE MOON</span>
+      <h3>Surveyor 3</h3>
+      <p>Landed on April 20. Apollo 12 astronauts later visited the spacecraft in November 1969.</p>
+    </article>
+
+    <article class="timeline-item">
+      <span class="timeline-date">1969 — THE MOON</span>
+      <h3>Apollo Lunar Module</h3>
+      <p>Apollo 11 landed on July 20, leaving its lunar module descent stage at the historic landing site.</p>
+    </article>
+
+    <article class="timeline-item">
+      <span class="timeline-date">1976 — MARS</span>
+      <h3>Viking 1 &amp; Viking 2</h3>
+      <p>Two pioneering landers reached Mars and began investigating its soil, atmosphere, and environment.</p>
+    </article>
+
+    <article class="timeline-item">
+      <span class="timeline-date">1997 — MARS</span>
+      <h3>Mars Pathfinder &amp; Sojourner</h3>
+      <p>Pathfinder landed on July 4. Sojourner explored nearby rocks and soil, operating for 83 days.</p>
+    </article>
+
+    <article class="timeline-item">
+      <span class="timeline-date">2004 — MARS</span>
+      <h3>Spirit &amp; Opportunity</h3>
+      <p>Two rovers began exploring Mars, searching for evidence of ancient environments shaped by water.</p>
+    </article>
+
+    <article class="timeline-item">
+      <span class="timeline-date">2010 — SPIRIT</span>
+      <h3>A Rover Falls Silent</h3>
+      <p>Spirit's last communication was received on March 22, 2010, after years of exploration.</p>
+    </article>
+
+    <article class="timeline-item">
+      <span class="timeline-date">2018 — OPPORTUNITY</span>
+      <h3>The Final Signal</h3>
+      <p>Opportunity last communicated on June 10, 2018, after nearly 15 years exploring Mars.</p>
+    </article>
+
+  </div>
+
+  <p class="timeline-ending">
+    THE SIGNALS FADED. THE DISCOVERIES REMAIN.
+  </p>
+</section>
+
+<section class="sources" id="mission-sources">
+  <p class="eyebrow">RESEARCH &amp; DOCUMENTATION</p>
+  <h2>Mission Sources &amp; Image Credits</h2>
+  <p>
+    Forgotten Horizons is an independent educational storytelling
+    project. Mission summaries are written for this archive and
+    are not official NASA publications.
+  </p>
+
+  <div class="source-list">
+    <a href="https://science.nasa.gov/mission/surveyor-3/"
+       target="_blank" rel="noopener noreferrer">
+      <span>SOURCE 01 · THE MOON</span>
+      <strong>Surveyor 3 — NASA Science ↗</strong>
+    </a>
+
+    <a href="https://science.nasa.gov/mission/viking/"
+       target="_blank" rel="noopener noreferrer">
+      <span>SOURCE 02 · MARS</span>
+      <strong>Viking Project — NASA Science ↗</strong>
+    </a>
+
+    <a href="https://science.nasa.gov/planetary-science/programs/mars-exploration/mission-timeline/how-we-land-on-mars/"
+       target="_blank" rel="noopener noreferrer">
+      <span>SOURCE 03 · MARS</span>
+      <strong>Mars Landing Missions — NASA Science ↗</strong>
+    </a>
+
+    <a href="https://www.jpl.nasa.gov/missions/viking-1/"
+       target="_blank" rel="noopener noreferrer">
+      <span>SOURCE 04 · HISTORICAL RECORD</span>
+      <strong>Viking 1 — NASA JPL ↗</strong>
+    </a>
+
+    <a href="https://www.jpl.nasa.gov/missions/viking-2/"
+       target="_blank" rel="noopener noreferrer">
+      <span>SOURCE 05 · HISTORICAL RECORD</span>
+      <strong>Viking 2 — NASA JPL ↗</strong>
+    </a>
+  </div>
+
+  <p class="credit-note">
+    IMAGE CREDITS: Images retrieved through NASA's public image API
+    are credited to their respective source records where available.
+    Image rights and usage terms may vary; check the original record
+    before reuse.
+  </p>
+</section>
+<footer>
+<strong>FORGOTTEN HORIZONS</strong><br>
+An independent educational storytelling project.<br>
+Mission descriptions are summaries, not official NASA publications. NASA source links are provided for further research. Images are requested from NASA's public image API when available; check each image's credit and usage information before publication.<br>
+Not affiliated with or endorsed by NASA.
+</footer>
+
+<div class="modal" id="modal" role="dialog" aria-modal="true" aria-labelledby="fileTitle">
+<article class="file">
+<div class="file-head">
+<button class="close" id="close">CLOSE ✕</button>
+<div class="eyebrow" id="fileTag">MISSION FILE</div>
+<h2 id="fileTitle">Mission name</h2>
+<div class="subtitle" id="fileHook"></div>
+</div>
+<div class="file-content">
+<div class="section-title">01 / MISSION OVERVIEW</div>
+<p id="fileStory"></p>
+
+<div class="section-title">02 / TIMELINE</div>
+<div class="timeline" id="timeline"></div>
+
+<div class="section-title">03 / THE SCIENCE</div>
+<p id="fileScience"></p>
+
+<div class="section-title">04 / THE FORGOTTEN LEGACY</div>
+<p id="fileLegacy"></p>
+
+<div class="fact">
+<div class="eyebrow">WHY THIS MISSION MATTERS</div>
+<p id="fileWhy"></p>
+</div>
+
+<div class="section-title">05 / EXPLORE THE ORIGINAL RECORD</div>
+<a class="source" id="source" href="#" target="_blank" rel="noopener noreferrer">OPEN NASA REFERENCE ↗</a>
+<p class="disclaimer">Dates and mission details are summarized from the linked reference. Follow the source to read the original record.</p>
+</div>
+</article>
+</div>
+
+<script>
+const missions = [
+{
+name:"Surveyor 3",place:"Moon",type:"moon",symbol:"📡",
+hook:"The lander later visited by Apollo astronauts.",
+story:"Surveyor 3 landed on the Moon in April 1967. Its camera photographed the surrounding landscape, while a surface sampler dug into lunar soil and tested its properties.",
+timeline:[
+["17 APR 1967","Launched from Earth."],
+["20 APR 1967","Landed on the Moon after bouncing twice during descent."],
+["4 MAY 1967","Last contact with the spacecraft."],
+["19 NOV 1969","Apollo 12 astronauts visited and recovered selected components."]
+],
+science:"Surveyor 3 sent back 6,326 television images. Its sampling experiments helped scientists assess whether lunar soil could support the weight of a crewed lunar landing vehicle.",
+legacy:"The spacecraft remains at its lunar landing site. Apollo 12 astronauts recovered its camera and other parts, allowing scientists to study equipment that had spent more than two years on the Moon.",
+why:"Surveyor 3 helped prepare the way for human exploration. Its story connects a robotic mission with the astronauts who later visited it.",
+source:"https://science.nasa.gov/mission/surveyor-3/"
+},
+{
+name:"Mars Pathfinder",place:"Mars",type:"mars",symbol:"🛰️",
+hook:"A new approach to landing on the Red Planet.",
+story:"Mars Pathfinder delivered a stationary lander and the Sojourner rover to Mars. Its innovative airbag landing system cushioned the impact with the surface.",
+timeline:[
+["4 DEC 1996","Launched from Earth."],
+["4 JUL 1997","Landed on Mars."],
+["JUL 1997","Deployed Sojourner to investigate nearby rocks and soil."],
+["27 SEP 1997","Last successful data transmission from the mission."]
+],
+science:"Pathfinder returned images and measurements of Martian rocks, soil and weather. It demonstrated that a comparatively low-cost mission could deliver a rover to another planet.",
+legacy:"The lander and rover remain at the landing site. Pathfinder's engineering approach influenced later ideas for landing robotic explorers safely.",
+why:"Its airbags changed how engineers thought about landing spacecraft on a rocky planet.",
+source:"https://science.nasa.gov/mission/mars-pathfinder/"
+},
+{
+name:"Sojourner Rover",place:"Mars",type:"mars",symbol:"🤖",
+hook:"A small rover that helped open the road for robotic explorers.",
+story:"Sojourner was a small wheeled rover delivered to Mars by Pathfinder. It moved among nearby rocks, took pictures and used instruments to examine the surface.",
+timeline:[
+["4 DEC 1996","Launched as part of Mars Pathfinder."],
+["4 JUL 1997","Arrived on Mars aboard the Pathfinder lander."],
+["6 JUL 1997","Began surface operations after deployment."],
+["27 SEP 1997","The Pathfinder mission's final successful data transmission."]
+],
+science:"Sojourner used cameras and an Alpha Proton X-ray Spectrometer to examine selected rocks and soil. Its observations helped scientists investigate the composition of the Martian surface.",
+legacy:"Sojourner's operations ended with the Pathfinder mission. It showed that a remotely operated vehicle could travel across another planet and conduct useful scientific work.",
+why:"It helped prove the value of mobile planetary robots and paved the way for larger rovers.",
+source:"https://www.jpl.nasa.gov/missions/mars-pathfinder-sojourner-rover/"
+},
+{
+name:"Viking 1 Lander",place:"Mars",type:"mars",symbol:"🛬",
+hook:"A pioneering lander that operated for more than six years.",
+story:"Viking 1 reached Mars as part of a mission combining an orbiter and a lander. The lander photographed its surroundings, monitored weather and performed experiments on the soil.",
+timeline:[
+["20 AUG 1975","Launched from Earth."],
+["19 JUN 1976","The spacecraft entered orbit around Mars."],
+["20 JUL 1976","The lander touched down in Chryse Planitia."],
+["11 NOV 1982","Final contact with the lander."]
+],
+science:"Viking 1 returned surface images and weather measurements. Its biology experiments investigated possible signs of life, but the results did not establish definitive evidence that life was present.",
+legacy:"The lander remains at its Martian landing site. It operated for more than six years, greatly exceeding its planned surface mission.",
+why:"Viking 1 helped establish the foundations of modern surface exploration and the search for evidence of life on Mars.",
+source:"https://science.nasa.gov/mission/viking-1/"
+},
+{
+name:"Viking 2 Lander",place:"Mars",type:"mars",symbol:"🔬",
+hook:"A second landing site revealed another part of Mars.",
+story:"Viking 2 was the second NASA Viking lander to reach the Martian surface. It landed in Utopia Planitia, a different environment from Viking 1's landing site.",
+timeline:[
+["9 SEP 1975","Launched from Earth."],
+["7 AUG 1976","The spacecraft entered orbit around Mars."],
+["3 SEP 1976","The lander touched down in Utopia Planitia."],
+["12 APR 1980","The lander's mission ended."]
+],
+science:"Viking 2 photographed the surface, measured weather and carried out soil experiments. It also observed frost, adding to scientists' understanding of seasonal conditions on Mars.",
+legacy:"The lander remains at its landing site. Together, the two Viking missions returned thousands of photographs and greatly expanded knowledge of Mars.",
+why:"Exploring two different sites helped scientists understand how conditions can vary across the same planet.",
+source:"https://science.nasa.gov/mission/viking-2/"
+},
+{
+name:"Spirit Rover",place:"Mars",type:"mars",symbol:"🚙",
+hook:"A rover designed for 90 sols that worked for years.",
+story:"Spirit landed in Gusev Crater in January 2004. It travelled across the Martian terrain to examine rocks and soil for clues about the planet's past.",
+timeline:[
+["10 JUN 2003","Launched from Earth."],
+["4 JAN 2004 UTC","Landed on Mars in Gusev Crater."],
+["2009","Became stuck in soft soil while exploring."],
+["22 MAR 2010","Last communication received."]
+],
+science:"Spirit found geological evidence that water had affected rocks and soils at its exploration sites. These clues helped scientists reconstruct ancient environmental conditions.",
+legacy:"Spirit operated for more than six years before communications ended. NASA declared the mission complete in 2011. The rover remains on Mars.",
+why:"Spirit showed how a rover could survive far beyond its planned lifetime and uncover evidence of ancient environments.",
+source:"https://science.nasa.gov/mission/mer-spirit/"
+},
+{
+name:"Opportunity Rover",place:"Mars",type:"mars",symbol:"☀️",
+hook:"A 90-sol mission that explored Mars for almost 15 years.",
+story:"Opportunity landed on the Meridiani Planum region of Mars in January 2004. Its solar-powered instruments investigated rocks, craters and terrain shaped by the planet's history.",
+timeline:[
+["7 JUL 2003","Launched from Earth."],
+["25 JAN 2004 UTC","Landed on Mars."],
+["2004–2018","Explored for nearly 15 years and travelled about 45 kilometres."],
+["10 JUN 2018","Last communication received."],
+["13 FEB 2019","NASA announced the end of the mission."]
+],
+science:"Opportunity discovered evidence that liquid water had influenced parts of ancient Mars. Its long journey allowed scientists to investigate many different geological locations.",
+legacy:"A major dust storm reduced sunlight reaching the rover's solar panels. After repeated attempts to regain contact, NASA concluded the mission.",
+why:"Opportunity transformed a short demonstration mission into years of exploration and a remarkable record of discoveries.",
+source:"https://science.nasa.gov/mission/mer-opportunity/"
+},
+{
+name:"Apollo Lunar Module",place:"Moon",type:"moon",symbol:"🌕",
+hook:"The descent stages remain at historic lunar landing sites.",
+story:"The Apollo Lunar Module carried astronauts from lunar orbit to the Moon's surface. Its descent stage slowed the vehicle during landing and served as the launch platform for the ascent stage.",
+timeline:[
+["20 JUL 1969","Apollo 11 made the first crewed lunar landing."],
+["1969–1972","Six Apollo missions successfully landed crews on the Moon."],
+["After each landing","The descent stage was left behind when astronauts departed."]
+],
+science:"The Lunar Module made crewed lunar surface operations possible. Apollo astronauts collected samples, deployed experiments and documented the geology of their landing sites.",
+legacy:"Descent stages from the six successful Apollo lunar landings remain at their respective landing sites. The fates of ascent stages varied by mission.",
+why:"These abandoned stages are physical reminders of the engineering that enabled humans to explore another world.",
+source:"https://science.nasa.gov/resource/apollo-landing-sites/"
+}
+];
+
+const gallery=document.getElementById("gallery");
+const search=document.getElementById("search");
+const count=document.getElementById("count");
+const empty=document.getElementById("empty");
+const modal=document.getElementById("modal");
+let activeFilter="all";
+
+function openFile(m){
+ document.getElementById("fileTag").textContent=m.place.toUpperCase()+" / MISSION FILE";
+ document.getElementById("fileTitle").textContent=m.name;
+ document.getElementById("fileHook").textContent=m.hook;
+ document.getElementById("fileStory").textContent=m.story;
+ document.getElementById("fileScience").textContent=m.science;
+ document.getElementById("fileLegacy").textContent=m.legacy;
+ document.getElementById("fileWhy").textContent=m.why;
+ document.getElementById("source").href=m.source;
+
+ const timeline=document.getElementById("timeline");
+ timeline.replaceChildren();
+
+ m.timeline.forEach(item=>{
+  const event=document.createElement("div");
+  event.className="event";
+  const date=document.createElement("strong");
+  const detail=document.createElement("span");
+  date.textContent=item[0];
+  detail.textContent=item[1];
+  event.append(date,detail);
+  timeline.appendChild(event);
+ });
+
+ modal.classList.add("show");
+ document.body.style.overflow="hidden";
+ document.getElementById("close").focus();
+}
+
+function closeFile(){
+ modal.classList.remove("show");
+ document.body.style.overflow="";
+}
+
+missions.forEach((m,index)=>{
+ const card=document.createElement("article");
+ card.className="card";
+ card.dataset.type=m.type;
+ card.dataset.search=(m.name+" "+m.place+" "+m.hook+" "+m.science+" "+m.legacy).toLowerCase();
+
+ const art=document.createElement("div");
+ art.className="art";
+ const planet=document.createElement("div");
+ planet.className="planet "+m.type;
+ const symbol=document.createElement("span");
+ symbol.className="symbol";
+ symbol.textContent=m.symbol;
+ art.append(planet,symbol);
+
+ const body=document.createElement("div");
+ body.className="card-body";
+
+ const tag=document.createElement("div");
+ tag.className="tag";
+ tag.textContent=m.place.toUpperCase()+" · FILE "+String(index+1).padStart(2,"0");
+
+ const title=document.createElement("h2");
+ title.textContent=m.name;
+
+ const description=document.createElement("p");
+ description.textContent=m.hook;
+
+ const button=document.createElement("button");
+ button.className="open";
+ button.type="button";
+ button.textContent="OPEN MISSION FILE ↗";
+ button.addEventListener("click",()=>openFile(m));
+
+ body.append(tag,title,description,button);
+ card.append(art,body);
+ gallery.appendChild(card);
+
+ // Load an optional image from NASA's public image API.
+ fetch("https://images-api.nasa.gov/search?q="+encodeURIComponent(m.name)+"&media_type=image&page_size=10")
+ .then(response=>response.ok?response.json():Promise.reject())
+ .then(data=>{
+  const items=data.collection?.items||[];
+  const item=items.find(x=>x.links?.some(link=>link.render==="image"));
+  if(!item)return;
+  const link=item.links.find(x=>x.render==="image");
+  const img=document.createElement("img");
+  img.src=link.href;
+  img.alt=m.name+" image from NASA's image collection";
+  img.loading="lazy";
+  img.onerror=()=>img.remove();
+  art.prepend(img);
+ })
+ .catch(()=>{});
+});
+
+function applyFilters(){
+ const query=search.value.trim().toLowerCase();
+ let visible=0;
+
+ document.querySelectorAll(".card").forEach(card=>{
+  const matchesDestination=activeFilter==="all"||card.dataset.type===activeFilter;
+  const matchesText=card.dataset.search.includes(query);
+  const show=matchesDestination&&matchesText;
+  card.style.display=show?"":"none";
+  if(show)visible++;
+ });
+
+ count.textContent=visible+(visible===1?" mission file":" mission files");
+ empty.style.display=visible?"none":"block";
+}
+
+document.querySelectorAll(".filter").forEach(button=>{
+ button.addEventListener("click",()=>{
+  activeFilter=button.dataset.filter;
+  document.querySelectorAll(".filter").forEach(b=>b.classList.remove("active"));
+  button.classList.add("active");
+  applyFilters();
+ });
+});
+
+search.addEventListener("input",applyFilters);
+document.getElementById("close").addEventListener("click",closeFile);
+modal.addEventListener("click",event=>{
+ if(event.target===modal)closeFile();
+});
+document.addEventListener("keydown",event=>{
+ if(event.key==="Escape")closeFile();
+});
+// Connect timeline entries to their mission files.
+document.querySelectorAll(".timeline-item").forEach(item => {
+  const heading = item.querySelector("h3");
+  if (!heading) return;
+
+  const title = heading.textContent.trim().toLowerCase();
+
+  const mission = missions.find(m => {
+    const name = m.name.toLowerCase();
+
+    return title === name ||
+      (title.includes("pathfinder") && name.includes("pathfinder")) ||
+      (title.includes("sojourner") && name.includes("sojourner")) ||
+      (title.includes("spirit") && name.includes("spirit")) ||
+      (title.includes("opportunity") && name.includes("opportunity")) ||
+      (title.includes("viking 1") && name.includes("viking 1")) ||
+      (title.includes("viking 2") && name.includes("viking 2")) ||
+      (title.includes("apollo") && name.includes("apollo lunar module")) ||
+      (title.includes("surveyor 3") && name.includes("surveyor 3"));
+  });
+
+  if (!mission) return;
+
+  item.setAttribute("role", "button");
+  item.setAttribute("tabindex", "0");
+  item.setAttribute("aria-label", "Open mission file: " + mission.name);
+  item.style.cursor = "pointer";
+
+  item.addEventListener("click", () => openFile(mission));
+
+  item.addEventListener("keydown", event => {
+    if (event.key === "Enter" || event.key === " ") {
+      event.preventDefault();
+      openFile(mission);
+    }
+  });
+});
+</script>
+</body>
+</html>
+

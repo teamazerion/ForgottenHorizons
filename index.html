@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#050914">
+<meta name="description" content="Forgotten Horizons — explore the stories of the machines left behind on the Moon and Mars.">
+<title>Forgotten Horizons | The Machines That Remain</title>
+
+<style>
+:root {
+  --bg: #050914;
+  --blue: #82ccff;
+  --muted: #a4b4ca;
+  --line: rgba(155, 203, 255, .22);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  color: #f4f7ff;
+  background: var(--bg);
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.hero {
+  position: relative;
+  isolation: isolate;
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background:
+    radial-gradient(ellipse at 75% 36%, rgba(42, 104, 166, .2), transparent 35%),
+    linear-gradient(180deg, #07101f 0%, #081426 50%, #050914 100%);
+}
+
+.hero::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  opacity: .75;
+  background-image:
+    radial-gradient(1px 1px at 8% 15%, white 99%, transparent),
+    radial-gradient(2px 2px at 23% 34%, #a9d9ff 99%, transparent),
+    radial-gradient(1px 1px at 44% 12%, white 99%, transparent),
+    radial-gradient(1px 1px at 61% 28%, white 99%, transparent),
+    radial-gradient(2px 2px at 87% 17%, #b9dfff 99%, transparent),
+    radial-gradient(1px 1px at 76% 51%, white 99%, transparent),
+    radial-gradient(1px 1px at 17% 70%, white 99%, transparent),
+    radial-gradient(1px 1px at 53% 65%, white 99%, transparent),
+    radial-gradient(1px 1px at 92% 73%, white 99%, transparent);
+  background-size: 350px 300px;
+  animation: stars 35s linear infinite;
+  pointer-events: none;
+}
+
+@keyframes stars {
+  from { transform: translateY(0); }
+  to { transform: translateY(-100px); }
+}
+
+nav {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 25px 6%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  border-bottom: 1px solid var(--line);
+}
+
+.brand {
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 2.5px;
+}
+
+.brand span {
+  color: var(--blue);
+}
+
+.nav-status {
+  color: var(--muted);
+  font-size: 10px;
+  letter-spacing: 1.5px;
+  text-align: right;
+}
+
+main {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 65px 6% 75px;
+}
+
+.content {
+  position: relative;
+  z-index: 2;
+  max-width: 690px;
+  animation: rise 1s ease both;
+}
+
+@keyframes rise {
+  from { opacity: 0; transform: translateY(18px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.eyebrow {
+  color: var(--blue);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 3px;
+  line-height: 1.8;
+}
+
+h1 {
+  margin: 23px 0;
+  font-size: clamp(43px, 10vw, 86px);
+  line-height: .98;
+  letter-spacing: -3px;
+  font-weight: 800;
+}
+
+h1 span {
+  display: block;
+  color: var(--blue);
+}
+
+.intro {
+  max-width: 540px;
+  color: #bac7d9;
+  font-size: 15px;
+  line-height: 1.9;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 15px;
+  margin-top: 34px;
+}
+
+.primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  padding: 17px 22px;
+  background: #b9e3ff;
+  color: #07101c;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+  transition: transform .2s, background .2s;
+}
+
+.primary:hover {
+  transform: translateY(-3px);
+  background: white;
+}
+
+.secondary {
+  padding: 15px 0;
+  color: #c6d4e7;
+  font-size: 12px;
+}
+
+.secondary:hover {
+  color: white;
+}
+
+.orbit {
+  position: absolute;
+  z-index: -1;
+  width: clamp(220px, 42vw, 490px);
+  aspect-ratio: 1;
+  right: -5%;
+  top: 25%;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at 32% 28%, #d9e7f1 0%, #8396aa 10%, #37495e 34%, #111c2d 64%, #070c16 72%);
+  box-shadow:
+    -25px 15px 80px rgba(70, 143, 208, .13),
+    inset -25px -18px 45px rgba(0, 0, 0, .7);
+  opacity: .68;
+  pointer-events: none;
+}
+
+.orbit::after {
+  content: "";
+  position: absolute;
+  width: 145%;
+  height: 28%;
+  left: -22%;
+  top: 40%;
+  border: 1px solid rgba(130, 204, 255, .28);
+  border-radius: 50%;
+  transform: rotate(-22deg);
+}
+
+.bottom {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 18px;
+  padding: 22px 6%;
+  border-top: 1px solid var(--line);
+  color: #8295ad;
+  font-size: 10px;
+  letter-spacing: 1.5px;
+}
+
+.bottom strong {
+  color: #cbd8e9;
+  font-weight: 600;
+}
+
+.story {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 75px 6%;
+}
+
+.story h2 {
+  max-width: 600px;
+  font-size: clamp(28px, 6vw, 44px);
+  line-height: 1.15;
+}
+
+.story p {
+  max-width: 650px;
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.9;
+}
+
+footer {
+  padding: 25px 6%;
+  border-top: 1px solid var(--line);
+  color: #7f91a9;
+  font-size: 11px;
+  line-height: 1.8;
+}
+
+@media (max-width: 600px) {
+  nav { padding: 21px 6%; }
+  .brand { font-size: 11px; letter-spacing: 1.5px; }
+  .nav-status { font-size: 9px; }
+  main { padding-top: 65px; padding-bottom: 85px; }
+  h1 { letter-spacing: -2px; }
+  .orbit {
+    width: 260px;
+    right: -105px;
+    top: 15%;
+    opacity: .35;
+  }
+  .intro { font-size: 14px; }
+  .primary { width: 100%; }
+  .bottom { font-size: 9px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: .01ms !important;
+  }
+}
+</style>
+
+<style id="FH_HOLOGRAPHIC_HUD">
+#fh-3d-viewer{isolation:isolate}
+.fh-hud{position:absolute;inset:0;z-index:3;pointer-events:none;overflow:hidden;color:#a9e7ff;font-family:monospace;text-shadow:0 0 8px #36aaff88}
+.fh-hud-corner{position:absolute;width:24px;height:24px;border-color:#76d9ff;border-style:solid;opacity:.85}
+.fh-hud-tl{top:48px;left:14px;border-width:1px 0 0 1px}
+.fh-hud-tr{top:48px;right:14px;border-width:1px 1px 0 0}
+.fh-hud-bl{bottom:40px;left:14px;border-width:0 0 1px 1px}
+.fh-hud-br{bottom:40px;right:14px;border-width:0 1px 1px 0}
+.fh-hud-reticle{position:absolute;left:50%;top:50%;width:90px;height:90px;transform:translate(-50%,-50%);border:1px solid #64caff55;border-radius:50%;box-shadow:0 0 18px #299cff18}
+.fh-hud-reticle:before,.fh-hud-reticle:after{content:"";position:absolute;background:#78dcff88}
+.fh-hud-reticle:before{width:120%;height:1px;left:-10%;top:50%}
+.fh-hud-reticle:after{height:120%;width:1px;top:-10%;left:50%}
+.fh-hud-sweep{position:absolute;left:0;right:0;top:0;height:2px;background:linear-gradient(90deg,transparent,#64dcff,transparent);opacity:.7;box-shadow:0 0 14px #36bfff;animation:fhScan 5s linear infinite}
+.fh-hud-readout{position:absolute;right:25px;top:55px;text-align:right;font-size:9px;line-height:1.8;letter-spacing:1px}
+.fh-hud-readout span{color:#e4f8ff}
+.fh-hud-bottom{position:absolute;left:25px;bottom:48px;font-size:9px;line-height:1.8;letter-spacing:1px}
+.fh-hud-bar{height:3px;width:100px;background:#163c55;margin-top:5px;overflow:hidden}
+.fh-hud-bar:after{content:"";display:block;height:100%;width:35%;background:#69d8ff;box-shadow:0 0 10px #69d8ff;animation:fhSweepBar 2.4s ease-in-out infinite alternate}
+.fh-hud-blink{animation:fhBlink 1.8s steps(2,end) infinite}
+@keyframes fhScan{from{transform:translateY(0)}to{transform:translateY(320px)}}
+@keyframes fhSweepBar{from{transform:translateX(0)}to{transform:translateX(185%)}}
+@keyframes fhBlink{50%{opacity:.45}}
+@media(max-width:480px){.fh-hud-readout{right:22px;top:58px;font-size:8px}.fh-hud-bottom{left:22px;bottom:47px;font-size:8px}.fh-hud-reticle{width:66px;height:66px}}
+@media(prefers-reduced-motion:reduce){.fh-hud-sweep,.fh-hud-bar:after,.fh-hud-blink{animation:none}}
+</style>
+
+
+<style id="FH_CONTROL_CHALLENGE">
+#fh-command-center{padding:64px 6%;background:radial-gradient(ellipse at 50% 0%,#102b45 0%,#070d18 65%);color:#e9f5ff;font-family:inherit}
+#fh-command-center *{box-sizing:border-box}
+.fhcc-kicker{font:10px monospace;letter-spacing:3px;color:#70d7ff}
+.fhcc-title{font-size:clamp(25px,4vw,38px);margin:12px 0;color:#f3f8ff}
+.fhcc-sub{color:#91a9c2;font-size:13px;line-height:1.8;max-width:650px}
+.fhcc-stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin:28px 0}
+.fhcc-stat,.fhcc-panel{background:linear-gradient(145deg,#102238dd,#091321ee);border:1px solid #254764;border-radius:10px;padding:19px}
+.fhcc-stat small{display:block;color:#91a9c2;font:10px monospace;letter-spacing:1px}
+.fhcc-number{font-size:30px;color:#86ddff;margin:10px 0 4px}
+.fhcc-note{font-size:11px;color:#7894b1}
+.fhcc-grid{display:grid;grid-template-columns:1fr 1.2fr;gap:15px}
+.fhcc-panel h3{margin:8px 0 12px;font-size:19px}
+.fhcc-line{height:5px;background:#1b3045;border-radius:10px;overflow:hidden;margin:12px 0 18px}
+.fhcc-line span{display:block;width:100%;height:100%;background:linear-gradient(90deg,#2785ff,#7ce7ff)}
+.fhcc-tag{font:10px monospace;letter-spacing:1px;color:#77d8ff}
+.fhcc-question{font-size:16px;line-height:1.6;margin:15px 0}
+.fhcc-options{display:grid;gap:9px}
+.fhcc-option{padding:12px;text-align:left;border:1px solid #294b68;border-radius:6px;background:#0b1929;color:#dbeeff;font:inherit;font-size:13px;cursor:pointer}
+.fhcc-option:hover:not(:disabled){border-color:#79dfff;background:#10263a}
+.fhcc-option:disabled{cursor:default;opacity:.8}
+.fhcc-option.fhcc-correct{border-color:#51dfad;background:#10352e}
+.fhcc-option.fhcc-wrong{border-color:#ff9b80;background:#39201f}
+.fhcc-feedback{min-height:48px;font-size:12px;color:#a9c0d7;line-height:1.7;margin:13px 0}
+.fhcc-btn{padding:11px 15px;border:1px solid #79dfff;border-radius:5px;background:#102a40;color:#e9f8ff;font:11px monospace;letter-spacing:1px;cursor:pointer}
+.fhcc-btn:focus-visible,.fhcc-option:focus-visible{outline:2px solid white;outline-offset:3px}
+@media(max-width:600px){.fhcc-stats{gap:8px}.fhcc-stat{padding:12px}.fhcc-number{font-size:24px}.fhcc-stat small{font-size:8px}.fhcc-grid{grid-template-columns:1fr}#fh-command-center{padding:45px 5%}}
+</style>
+
+
+<style id="FH_TIMELINE_STYLES">
+#fh-timeline{padding:65px 6%;color:#edf7ff;background:radial-gradient(ellipse at 50% 0%,#122c45,#070c16 72%);font-family:inherit}
+#fh-timeline *{box-sizing:border-box}
+.fht-kicker{font:10px monospace;letter-spacing:3px;color:#7bdcff}
+.fht-heading{font-size:clamp(26px,4vw,38px);margin:12px 0}
+.fht-intro{font-size:13px;color:#98aec5;line-height:1.8;max-width:660px}
+.fht-filters{display:flex;gap:8px;flex-wrap:wrap;margin:25px 0 18px}
+.fht-filter,.fht-year,.fht-mission{font:11px monospace;cursor:pointer;color:#cfeeff;background:#0b1928;border:1px solid #294c68;border-radius:5px;padding:10px 13px}
+.fht-filter[aria-pressed="true"],.fht-year[aria-pressed="true"]{border-color:#7ce1ff;background:#12314a;box-shadow:0 0 14px #35aaff20}
+.fht-year-row{display:flex;gap:8px;overflow-x:auto;padding:5px 2px 17px}
+.fht-year{flex:0 0 auto;min-width:75px}
+.fht-track{height:2px;background:linear-gradient(90deg,#1d5277,#7ce1ff,#1d5277);margin:0 0 25px;position:relative}
+.fht-track:after{content:"";position:absolute;top:-3px;left:0;width:8px;height:8px;border-radius:50%;background:#8ceaff;box-shadow:0 0 12px #65d9ff;animation:fht-travel 5s linear infinite}
+@keyframes fht-travel{from{left:0}to{left:calc(100% - 8px)}}
+.fht-cards{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.fht-card{padding:18px;background:linear-gradient(145deg,#10243a,#091321);border:1px solid #25435e;border-radius:8px;min-width:0}
+.fht-card[hidden]{display:none}
+.fht-card-top{font:10px monospace;letter-spacing:1px;color:#7ddfff}
+.fht-mission{width:100%;text-align:left;margin-top:12px;font-size:13px;line-height:1.6}
+.fht-mission:focus-visible,.fht-filter:focus-visible,.fht-year:focus-visible{outline:2px solid white;outline-offset:3px}
+.fht-detail{margin-top:12px;padding-top:12px;border-top:1px solid #25435e;color:#a8bfd4;font-size:12px;line-height:1.8}
+.fht-detail[hidden]{display:none}
+.fht-detail a{color:#83dcff}
+.fht-empty{color:#91a9c2;font-size:12px;line-height:1.8}
+@media(max-width:600px){#fh-timeline{padding:45px 5%}.fht-cards{grid-template-columns:1fr}.fht-card{padding:15px}}
+@media(prefers-reduced-motion:reduce){#fh-timeline *{animation:none!important;scroll-behavior:auto!important}}
+</style>
+
+</head>
+<body>
+<section class="hero">
+  <nav>
+    <a class="brand" href="index.html">FH <span>/</span> EXPLORATION</a>
+    <div class="nav-status">INDEPENDENT MISSION ARCHIVE<br>FIELD RECORD · 2026</div>
+  
+<div style="display:flex;gap:12px;flex-wrap:wrap;align-items:center;font-size:12px">
+<a href="index.html">HOME</a>
+<a href="dashboard.html">MISSION CONTROL</a>
+<a href="explore.html">EXPLORE</a>
+<a href="missions.html">ARCHIVE</a>
+<a href="about.html">ABOUT</a>
+</div>
+</nav>
+
+  <div class="orbit" aria-hidden="true"></div>
+
+  <main>
+    <div class="content">
+      <p class="eyebrow">A STORY OF EXPLORATION · 001—008</p>
+
+      <h1>
+        THE MACHINES
+        <span>THAT REMAIN.</span>
+      </h1>
+
+      <p class="intro">
+        Humanity reached for other worlds. Our machines landed,
+        explored, collected evidence, and sent discoveries home.
+        Some eventually fell silent — but their stories did not end.
+      </p>
+
+      <div class="actions">
+        <a class="primary" href="missions.html">
+          EXPLORE THE ARCHIVE <span aria-hidden="true">↗</span>
+        </a>
+        <a class="secondary" href="#about">DISCOVER THE PROJECT ↓</a>
+      </div>
+    </div>
+  </main>
+
+  <div class="bottom">
+    <span><strong>THE MOON</strong> · HISTORICAL LANDINGS</span>
+    <span><strong>MARS</strong> · ROBOTIC EXPLORATION</span>
+    <span>THE SIGNALS FADED. THE DISCOVERIES REMAIN.</span>
+  </div>
+</section>
+<section class="story" id="about">
+  <p class="eyebrow">BEYOND THE FINAL TRANSMISSION</p>
+  <h2>Every mission leaves something behind.</h2>
+  <p>
+    Forgotten Horizons is an independent educational storytelling
+    project about the spacecraft and equipment left behind during
+    exploration of the Moon and Mars. Through mission records,
+    scientific discoveries, and historical moments, we explore
+    what these machines accomplished — and what remains.
+  </p>
+  <a class="primary" href="missions.html">
+    ENTER THE MISSION ARCHIVE ↗
+  </a>
+</section>
+<footer>
+  FORGOTTEN HORIZONS · INDEPENDENT EDUCATIONAL PROJECT<br>
+  NASA names and mission information are used for educational storytelling.
+  This project is not affiliated with or endorsed by NASA.
+</footer>
+
+</body>
+</html>
