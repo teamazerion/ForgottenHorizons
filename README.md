@@ -80,6 +80,8 @@ email: yohan7jo@gmail.com
 
 ## 📖 Further Reading
 
+- [Mission Sources & Credits](SOURCES.md)
+
 - [NASA](https://www.nasa.gov/)
 - [NASA Solar System Exploration](https://science.nasa.gov/solar-system/)
 - [NASA Space Apps Challenge](https://www.spaceappschallenge.org/)
