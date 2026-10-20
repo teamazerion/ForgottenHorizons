@@ -66,7 +66,9 @@ No app installation is required.
 ## 👨‍🚀 
 
 created by Yohan Joseph 
+
 Instagram: @iamyohanjoseph7
+
 email: yohan7jo@gmail.com 
 
 ## 📖 Further Reading
