@@ -63,12 +63,15 @@ Its goal is to encourage people to look beyond mission endings and discover the 
 
 No app installation is required.
 
-## 👨‍🚀 
+##👨‍🚀 Creator
 
-created by Yohan Joseph 
+Yohan Joseph — Creator and developer of Forgotten Horizons.
 
-Instagram: @iamyohanjoseph7
+- GitHub: "@teamazerion" (https://github.com/teamazerion)
+- Instagram: "@yohanjoseph7" (https://www.instagram.com/yohanjoseph7/)
+- Live Project: "Forgotten Horizons" (https://teamazerion.github.io/ForgottenHorizons/)
 
+Every mission leaves a legacy. Every forgotten object has a story.
 email: yohan7jo@gmail.com 
 
 ## 📖 Further Reading
