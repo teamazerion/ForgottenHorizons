@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="assets/banner.png" alt="Forgotten Horizons — Created by Yohan Joseph" width="100%">
+</p>
+
 # 🌌 Forgotten Horizons
 
 ### Abandoned but Not Forgotten — Exploring the Stories Left Behind
